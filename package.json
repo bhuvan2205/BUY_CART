@@ -9,6 +9,8 @@
     "server": "nodemon server/app.js",
     "client": "npm run dev --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "data:import":"node server/seeder.js",
+    "data:destroy":"node server/seeder.js -d",
     "build": "npm i && npm i --prefix client && npm run build --prefix client"
   },
   "keywords": [],

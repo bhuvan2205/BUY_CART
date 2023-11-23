@@ -1,24 +1,20 @@
 import { Router } from "express";
-import products from "../data/product.js";
-import checkValidObjectID from "../utils/checkValidObjectID.js";
+import {
+  getAllProducts,
+  getSingleProduct,
+  deleteSingleProduct,
+  createProduct,
+  updateProduct,
+} from "../controllers/products.js";
+import auth from "../middlewares/auth.js";
+import admin from "../middlewares/admin.js";
 
 const router = Router();
 
-router.get("/", (req, res) => {
-  res.status(200).json({ products });
-});
-
-router.get("/:id", (req, res) => {
-  const { id } = req?.params || {};
-  //   checkValidObjectID(id);
-
-  const product = products.find((product) => product?.id == id);
-
-  if (!product) {
-    throw Error("Product not found");
-  }
-
-  res.status(200).json({ product });
-});
+router.get("/", getAllProducts);
+router.post("/", auth, admin, createProduct);
+router.patch("/:id", auth, admin, updateProduct);
+router.get("/:id", getSingleProduct);
+router.delete("/:id", auth, admin, deleteSingleProduct);
 
 export default router;

@@ -1,10 +1,6 @@
 export const API_ENDPOINTS = {
   PRODUCTS: "/api/products",
-  USER: "/api/products",
-  ORDER: "/api/products",
+  USERS: "/api/users",
+  ORDER: "/api/orders",
 };
 
-export const ROUTES = {
-  HOME: "/",
-  PRODUCT: "/product",
-};

@@ -1,36 +1,58 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import profile from "../assets/profile.jpg";
+import { useDispatch, useSelector } from "react-redux";
+import { ROUTES } from "../constants/routes";
+import { removeUserDetails } from "../features/userSlice";
+import { useLogoutMutation } from "../features/userApiSlice";
+import { toast } from "react-toastify";
+import { FaShoppingCart } from "react-icons/fa";
 
 const Header = () => {
-  const cartItems = 8;
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { cartItems } = useSelector((state) => state?.cart);
+  const { user } = useSelector((state) => state?.auth);
+
+  const [logout, { isLoading }] = useLogoutMutation();
+
+  const basketCount =
+    cartItems?.length > 0
+      ? cartItems?.reduce((acc, item) => {
+          return (acc += item.quantity);
+        }, 0)
+      : 0;
+  const subTotal =
+    cartItems?.length > 0
+      ? cartItems?.reduce((acc, item) => {
+          return (acc += item.price);
+        }, 0)
+      : 0;
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+      dispatch(removeUserDetails());
+      toast.success("User Logged Out Successfully");
+    } catch (error) {
+      toast.error(error?.data?.message || error?.message);
+    }
+  };
+
   return (
     <div className="navbar bg-black py-4 px-0">
       <div className="container mx-auto">
         <div className="flex-1">
-          <Link className="font-bold text-primary text-xl" to="/">
-            BUY-CART
+          <Link className="font-bold text-primary text-xl" to={ROUTES.HOME}>
+            Buy Cart
           </Link>
         </div>
         <div className="flex-none">
           <div className="dropdown dropdown-end pe-4">
             <label tabIndex={0} className="btn btn-ghost btn-circle">
               <div className="indicator">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-7 w-7"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
-                  />
-                </svg>
-                <span className="badge badge-sm indicator-item">
-                  {cartItems}
+                <FaShoppingCart className="text-2xl" />
+                <span className="badge badge-sm badge-secondary indicator-item">
+                  {basketCount}
                 </span>
               </div>
             </label>
@@ -39,10 +61,17 @@ const Header = () => {
               className="mt-3 z-[1] card card-compact dropdown-content w-52 bg-base-100 shadow"
             >
               <div className="card-body">
-                <span className="font-bold text-lg">{cartItems} Items</span>
-                <span className="text-info">Subtotal: $999</span>
+                <span className="font-bold text-lg">
+                  {cartItems?.length ? cartItems?.length : 0} Items
+                </span>
+                <span className="text-primary">
+                  Subtotal: ${subTotal.toFixed(2)}
+                </span>
                 <div className="card-actions">
-                  <button className="btn btn-primary btn-block">
+                  <button
+                    className="btn  btn-primary"
+                    onClick={() => navigate(ROUTES.CART)}
+                  >
                     View cart
                   </button>
                 </div>
@@ -59,18 +88,33 @@ const Header = () => {
               tabIndex={0}
               className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
             >
-              <li>
-                <a className="justify-between">
-                  Profile
-                  <span className="badge">New</span>
-                </a>
-              </li>
-              <li>
-                <a>Settings</a>
-              </li>
-              <li>
-                <a>Logout</a>
-              </li>
+              {user?._id ? (
+                <>
+                  <li>
+                    <a className="justify-between">
+                      Profile
+                      <span className="badge badge-primary">New</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a>Settings</a>
+                  </li>
+                  <li>
+                    <button disabled={isLoading} onClick={handleLogout}>
+                      Logout
+                    </button>
+                  </li>
+                </>
+              ) : (
+                <>
+                  <li>
+                    <Link to="/login">Login</Link>
+                  </li>
+                  <li>
+                    <Link to="/register">Register</Link>
+                  </li>
+                </>
+              )}
             </ul>
           </div>
         </div>

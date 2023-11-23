@@ -1,22 +1,16 @@
-import { useSelector } from "react-redux";
 import { useFetchProductsQuery } from "../features/productApiSice";
 import Card from "../components/Card";
 import Placeholder from "../components/Placeholder";
 import Message from "../components/Message";
 
 const Home = () => {
-  const { cartItems } = useSelector((state) => state?.cart);
-  console.log({ cartItems });
-
   const { data, isLoading, error, isError } = useFetchProductsQuery();
-
-  console.log({ data });
 
   return (
     <div className="container mx-auto">
-      <h1 className="text-4xl py-12 font-bold">Latest Products</h1>
+      <h1 className="text-4xl py-12 font-bold text-center md:text-left">Latest Products</h1>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 gap-y-12 place-items-center md:place-items-start">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-12 place-items-center md:place-items-start">
         {isLoading && (
           <>
             {[...Array(3)].map((_, index) => (
@@ -40,7 +34,8 @@ const Home = () => {
               image={product.image}
               price={product.price}
               isLoading={isLoading}
-              id={product.id}
+              rating={product.rating}
+              id={product._id}
             />
           ))}
       </div>

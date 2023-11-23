@@ -1,27 +1,37 @@
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useFetchProductQuery } from "../features/productApiSice";
 import Message from "../components/Message";
-import Placeholder from "../components/Placeholder";
 import Reviews from "../components/Reviews";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { addCartItems } from "../features/cartSlice";
+import { ROUTES } from "../constants/routes";
+import Loader from "../components/Loader";
 
 const Product = () => {
   const { id } = useParams();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [quantity, setQuantity] = useState(1);
   const { data, isLoading, isError, error } = useFetchProductQuery(id);
+
+  const addToCartHandler = () => {
+    dispatch(addCartItems({ quantity, ...data?.product }));
+    navigate(ROUTES.CART);
+  };
+
   return (
     <div className="container mx-auto">
       <div className="py-8">
-        <Link to="/">
-          <button className="btn btn-secondary">Go Back</button>
+        <Link to={ROUTES.HOME}>
+          <button className="btn  btn-primary">Go Back</button>
         </Link>
-
+        {isLoading && (
+          <div className="py-8">
+            <Loader />
+          </div>
+        )}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 py-8 place-items-center">
-          {isLoading && (
-            <>
-              {[...Array(2)].map((_, index) => (
-                <Placeholder key={index} />
-              ))}
-            </>
-          )}
           {isError && (
             <Message
               message={error?.data?.message || error?.message}
@@ -60,17 +70,27 @@ const Product = () => {
                     <div className="stat-title text-xl font-bold">
                       Select Quantity
                     </div>
-                    <select id="quantity" className="py-2 mt-2">
+                    <select
+                      id="quantity"
+                      className="p-2 mt-2 bg-base-300"
+                      onChange={(e) => setQuantity(Number(e.target.value))}
+                    >
                       {[...Array(data?.product?.countInStock)].map(
                         (_, index) => (
-                          <option key={index}>{index + 1}</option>
+                          <option key={index} className="px-1">{index + 1}</option>
                         )
                       )}
                     </select>
                   </div>
-                  <div className="stat">
+                  <div className="stat text-center">
                     <div className="stat-actions">
-                      <button className="btn btn-info">Add to Cart</button>
+                      <button
+                        className="btn btn-primary"
+                        disabled={data?.product?.countInStock === 0}
+                        onClick={addToCartHandler}
+                      >
+                        Add to Cart
+                      </button>
                     </div>
                   </div>
                 </div>
