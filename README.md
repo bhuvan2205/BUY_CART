@@ -1,4 +1,4 @@
-# MERN_AUTH
+# BUY_CART
 E-Commerce Project using MERN Stack
 
 **Frontend** - In the frontend side, we would be using React as the frontend library. We would use Redux for state management. We would use React Bootstrap library for basic designing of the interface.
