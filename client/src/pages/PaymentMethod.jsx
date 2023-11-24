@@ -60,7 +60,10 @@ const PaymentMethod = () => {
             className="btn btn-primary"
             onClick={() => {
               if (!paymentMethod) {
-                return toast.error("Select Payment Method");
+                return toast.error("Select Payment Method", {
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                });
               }
               dispatch(addPaymentMethod(paymentMethod));
               navigate("/checkout/step3");

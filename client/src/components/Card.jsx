@@ -11,7 +11,7 @@ const Card = (props) => {
   }
   return (
     <>
-      <div className="relative flex w-full max-w-xs flex-col overflow-hidden rounded-lg border border-gray-900 bg-base-200 shadow-md">
+      <div className="relative flex w-full max-w-xs flex-col overflow-hidden rounded-lg border border-base-300 bg-base-200 shadow-md">
         <Link to={`/product/${id}`}>
           <img
             className="object-cover md:h-60"

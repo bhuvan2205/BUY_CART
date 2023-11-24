@@ -20,6 +20,7 @@ import Shipping from "./pages/Shipping.jsx";
 import PaymentMethod from "./pages/PaymentMethod.jsx";
 import PlaceOrder from "./pages/PlaceOrder.jsx";
 import Order from "./pages/Order.jsx";
+import Profile from "./pages/Profile.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -34,6 +35,7 @@ const router = createBrowserRouter(
         <Route path="/checkout/step2" element={<PaymentMethod />} />
         <Route path="/checkout/step3" element={<PlaceOrder />} />
         <Route path="/order/:id" element={<Order />} />
+        <Route path="/profile" element={<Profile />} />
       </Route>
     </Route>
   )

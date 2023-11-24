@@ -13,27 +13,33 @@ const Register = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
 
   const navigate = useNavigate();
-  const auth  = useSelector((state) => state?.auth);
+  const { user } = useSelector((state) => state?.auth);
   const [register, { isLoading }] = useRegisterUserMutation();
 
   useEffect(() => {
-    if (auth?._id) {
+    if (user?._id) {
       navigate("/");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [auth]);
+  }, [user]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!name || !email || !password || !confirmPassword) {
-      return toast.error("Fields cannot be empty");
+      return toast.error("Fields cannot be empty", {
+        closeOnClick: true,
+        pauseOnHover: true,
+      });
     }
     try {
       await register({ email, password, name }).unwrap();
       navigate("/login");
     } catch (error) {
-      toast.error(error?.data?.message || error?.message);
+      toast.error(error?.data?.message || error?.message, {
+        closeOnClick: true,
+        pauseOnHover: true,
+      });
     }
   };
 

@@ -36,11 +36,17 @@ const Shipping = () => {
     e.preventDefault();
 
     if (!address || !city || !postalCode || !country) {
-      return toast.error("Fields cannot be empty");
+      return toast.error("Fields cannot be empty", {
+        closeOnClick: true,
+        pauseOnHover: true,
+      });
     }
 
     if (postalCode.trim().length !== 6 || postalCode.trim().length >= 7) {
-      return toast.error("Postal Code is not Valid");
+      return toast.error("Postal Code is not Valid", {
+        closeOnClick: true,
+        pauseOnHover: true,
+      });
     }
 
     dispatch(

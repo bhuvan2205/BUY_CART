@@ -1,13 +1,15 @@
 import { useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import CheckoutSteps from "../components/CheckoutSteps";
 import { FaShippingFast, FaTimes } from "react-icons/fa";
 import { useCreateOrderMutation } from "../features/orderApiSlice";
 import { toast } from "react-toastify";
+import { clearCartItems } from "../features/cartSlice";
 
 const PlaceOrder = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const [createOrder, { isLoading }] = useCreateOrderMutation();
 
@@ -21,7 +23,7 @@ const PlaceOrder = () => {
     orderTotal = 0,
   } = useSelector((state) => state?.cart);
 
-  const user = useSelector((state) => state?.auth);
+  const { user } = useSelector((state) => state?.auth);
 
   useEffect(() => {
     if (!cartItems?.length) {
@@ -60,16 +62,23 @@ const PlaceOrder = () => {
       };
 
       const response = await createOrder(data).unwrap();
-      toast.success("Order Placed Successfully");
+      toast.success("Order Placed Successfully", {
+        closeOnClick: true,
+        pauseOnHover: true,
+      });
+      dispatch(clearCartItems());
       navigate(`/order/${response?.order?._id}`);
     } catch (error) {
-      toast.error(error?.data?.message || error?.message);
+      toast.error(error?.data?.message || error?.message, {
+        closeOnClick: true,
+        pauseOnHover: true,
+      });
     }
   };
 
   return (
     <div className="container mx-auto">
-      <div className="py-12 flex justify-center">
+      <div className="py-8 flex justify-center">
         <CheckoutSteps steps={4} />
       </div>
 

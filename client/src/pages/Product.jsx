@@ -26,33 +26,31 @@ const Product = () => {
         <Link to={ROUTES.HOME}>
           <button className="btn  btn-primary">Go Back</button>
         </Link>
-        {isLoading && (
-          <div className="py-8">
-            <Loader />
-          </div>
-        )}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 py-8 place-items-center">
+        <div className="py-8">
           {isError && (
             <Message
               message={error?.data?.message || error?.message}
               variant="alert-error"
             />
           )}
-          {data && (
-            <>
-              <div>
-                <figure>
-                  <img src={data?.product?.image} alt={data?.product?.name} />
-                </figure>
-              </div>
-              <div className="text-center">
-                <h1 className="text-3xl pb-8">{data?.product?.name}</h1>
-                <h2 className="text-2xl py-4">Ratings:</h2>
-                <Reviews className="py-8" rating={data?.product?.rating} />
-                <p className="py-4">{data?.product?.description}</p>
-              </div>
-              <div className="flex justify-around gap-8">
-                <div className="stats stats-vertical shadow bg-base-200 p-8">
+          {isLoading && <Loader />}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 place-items-center">
+            {data && (
+              <>
+                <div>
+                  <figure>
+                    <img src={data?.product?.image} alt={data?.product?.name} />
+                  </figure>
+                </div>
+                <div className="text-center lg:ps-12">
+                  <h1 className="text-3xl pb-4">{data?.product?.name}</h1>
+                  <h2 className="text-2xl py-4">Ratings:</h2>
+                  <Reviews className="py-8" rating={data?.product?.rating} />
+                  <p className="py-4 text-justify">
+                    {data?.product?.description}
+                  </p>
+                </div>
+                <div className="stats stats-vertical shadow bg-base-200 p-4">
                   <div className="stat">
                     <div className="stat-title text-xl font-bold">Price</div>
                     <div className="stat-value">${data?.product?.price}</div>
@@ -77,7 +75,9 @@ const Product = () => {
                     >
                       {[...Array(data?.product?.countInStock)].map(
                         (_, index) => (
-                          <option key={index} className="px-1">{index + 1}</option>
+                          <option key={index} className="px-1">
+                            {index + 1}
+                          </option>
                         )
                       )}
                     </select>
@@ -94,9 +94,9 @@ const Product = () => {
                     </div>
                   </div>
                 </div>
-              </div>
-            </>
-          )}
+              </>
+            )}
+          </div>
         </div>
       </div>
     </div>

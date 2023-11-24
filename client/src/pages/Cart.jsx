@@ -106,6 +106,7 @@ const Cart = () => {
             <button
               type="button"
               className="px-6 py-2 border rounded-md btn-primary btn"
+              disabled={cartItems?.length === 0}
               onClick={() => {
                 navigate("/checkout/step1");
               }}
@@ -171,6 +172,7 @@ const Cart = () => {
                 <button
                   type="button"
                   className="w-full py-2 font-semibold border rounded btn btn-primary"
+                  disabled={cartItems?.length === 0}
                   onClick={() => {
                     navigate("/checkout/step1");
                   }}

@@ -13,35 +13,44 @@ const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const auth  = useSelector((state) => state?.auth);
+  const { user } = useSelector((state) => state?.auth);
   const [login, { isLoading }] = useLoginMutation();
 
   useEffect(() => {
-    if (auth?._id) {
+    if (user?._id) {
       navigate("/");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [auth]);
+  }, [user]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!email || !password) {
-      return toast.error("Fields cannot be empty");
+      return toast.error("Fields cannot be empty", {
+        closeOnClick: true,
+        pauseOnHover: true,
+      });
     }
     try {
       const user = await login({ email, password }).unwrap();
       dispatch(setUserDetails(user));
-      toast.success("User Logged In Successfully");
+      toast.success("User Logged In Successfully", {
+        closeOnClick: true,
+        pauseOnHover: true,
+      });
       navigate("/");
     } catch (error) {
-      toast.error(error?.data?.message || error?.message);
+      toast.error(error?.data?.message || error?.message, {
+        closeOnClick: true,
+        pauseOnHover: true,
+      });
     }
   };
 
   return (
     <div className="flex justify-center items-center h-screen w-full">
-      <div className="bg-base-200 p-12">
+      <div className="bg-base-200 p-8">
         <div className="text-center">
           <h1 className="text-3xl font-bold py-4">Sign In</h1>
           <p className="text-sm dark:text-gray-400">

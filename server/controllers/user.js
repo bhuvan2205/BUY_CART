@@ -103,7 +103,7 @@ export const getAllUsers = expressAsyncHandler(async (req, res) => {
 });
 
 export const updateUser = expressAsyncHandler(async (req, res) => {
-  const { name, password, isAdmin = false } = req?.body || {};
+  const { name, email, isAdmin = false } = req?.body || {};
 
   const user = await User.findById(req?.user?._id);
 
@@ -112,7 +112,11 @@ export const updateUser = expressAsyncHandler(async (req, res) => {
     throw new Error("User not found!");
   }
 
-  const updatedUser = await user.save({ name, email, password, isAdmin });
+  user.name = name || user?.name;
+  user.email = email || user?.email;
+  user.isAdmin = isAdmin || user?.email;
+
+  const updatedUser = await user.save();
 
   if (!updatedUser) {
     res.status(400);

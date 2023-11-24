@@ -8,8 +8,15 @@ const Home = () => {
 
   return (
     <div className="container mx-auto">
-      <h1 className="text-4xl py-12 font-bold text-center md:text-left">Latest Products</h1>
-
+      <h1 className="text-4xl py-8 font-bold text-center md:text-left">
+        Latest Products
+      </h1>
+      {isError && (
+        <Message
+          message={error?.data?.message || error?.message}
+          variant="alert-error"
+        />
+      )}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-12 place-items-center md:place-items-start">
         {isLoading && (
           <>
@@ -18,12 +25,7 @@ const Home = () => {
             ))}
           </>
         )}
-        {isError && (
-          <Message
-            message={error?.data?.message || error?.message}
-            variant="alert-error"
-          />
-        )}
+
         {data &&
           data?.products?.map((product, index) => (
             <Card
