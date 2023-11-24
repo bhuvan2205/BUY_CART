@@ -6,6 +6,7 @@ import { ROUTES } from "../constants/routes";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setUserDetails } from "../features/userSlice";
+import Spinner from "../components/Spinner";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -29,7 +30,7 @@ const Login = () => {
     if (!email || !password) {
       return toast.error("Fields cannot be empty", {
         closeOnClick: true,
-        pauseOnHover: true,
+        pauseOnHover: false,
       });
     }
     try {
@@ -37,13 +38,13 @@ const Login = () => {
       dispatch(setUserDetails(user));
       toast.success("User Logged In Successfully", {
         closeOnClick: true,
-        pauseOnHover: true,
+        pauseOnHover: false,
       });
       navigate("/");
     } catch (error) {
       toast.error(error?.data?.message || error?.message, {
         closeOnClick: true,
-        pauseOnHover: true,
+        pauseOnHover: false,
       });
     }
   };
@@ -86,12 +87,11 @@ const Login = () => {
           </div>
           <div className="my-8">
             <button
-              className={`btn btn-primary btn-block ${
-                isLoading && "animate-spin"
-              }`}
+              className="btn btn-primary btn-block"
               type="submit"
               disabled={isLoading}
             >
+              {isLoading && <Spinner />}
               Submit
             </button>
             <p className="flex items-center justify-center">

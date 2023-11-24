@@ -1,12 +1,26 @@
 import { useParams } from "react-router-dom";
-import { useFetchOrderQuery } from "../features/orderApiSlice";
+import {
+  useFetchOrderQuery,
+  useFetchPaypalClientIDQuery,
+  usePayOrderMutation,
+} from "../features/orderApiSlice";
 import { FaTimes } from "react-icons/fa";
 import Skeleton from "../components/Skeleton";
 import Message from "../components/Message";
+import { toast } from "react-toastify";
+import { PayPalButtons, usePayPalScriptReducer } from "@paypal/react-paypal-js";
+import { useEffect } from "react";
 
 const Order = () => {
   const { id } = useParams();
-  const { data, isLoading, isError, error } = useFetchOrderQuery(id);
+  const { data, isLoading, isError, error, refetch } = useFetchOrderQuery(id);
+  const {
+    data: paypal,
+    isLoading: loadingPaypal,
+    error: errorPaypal,
+  } = useFetchPaypalClientIDQuery();
+  const [paypalDispatch] = usePayPalScriptReducer();
+  const [payOrder] = usePayOrderMutation();
 
   const {
     shippingAddress,
@@ -16,7 +30,103 @@ const Order = () => {
     orderTotal = 0,
     shippingCost = 0,
     taxCost = 0,
+    isPaid = false,
+    isDelivered = false,
+    paidAt = "",
+    deliveredAt = "",
   } = data?.order || {};
+
+  const paidDate = new Date(paidAt);
+  const formattedPaidDate = `${("0" + paidDate.getDate()).slice(-2)}/${(
+    "0" +
+    (paidDate.getMonth() + 1)
+  ).slice(-2)}/${paidDate.getFullYear()}`;
+  const formattedPaidTime = `${("0" + paidDate.getHours()).slice(-2)}:${(
+    "0" + paidDate.getMinutes()
+  ).slice(-2)}`;
+
+  const deliveredDate = new Date(deliveredAt);
+  const formattedDeliveredDate = `${("0" + deliveredDate.getDate()).slice(
+    -2
+  )}/${("0" + (deliveredDate.getMonth() + 1)).slice(
+    -2
+  )}/${deliveredDate.getFullYear()}`;
+  const formattedDeliveredTime = `${("0" + deliveredDate.getHours()).slice(
+    -2
+  )}:${("0" + deliveredDate.getMinutes()).slice(-2)}`;
+
+  const createOrder = (data, actions) => {
+    return actions.order
+      .create({
+        purchase_units: [
+          {
+            amount: {
+              currency_code: "USD",
+              value: orderTotal.toFixed(2),
+            },
+          },
+        ],
+      })
+      .then((orderID) => {
+        return orderID;
+      });
+  };
+
+  const onApprove = async (data, actions) => {
+    try {
+      const details = await actions.order.capture();
+      const { payer } = details || {};
+      await payOrder({ id, ...payer });
+      toast.success("Order Paid Successfully", {
+        closeOnClick: true,
+        pauseOnHover: false,
+      });
+      refetch();
+    } catch (error) {
+      toast.error(error?.data?.message || error?.message, {
+        closeOnClick: true,
+        pauseOnHover: false,
+      });
+    }
+  };
+
+  const onError = (data, actions) => {
+    console.log({ data, actions });
+    toast.error("An Error occurs with Payment", {
+      closeOnClick: true,
+      pauseOnHover: true,
+    });
+  };
+
+  useEffect(() => {
+    if (!errorPaypal && !loadingPaypal && paypal?.clientID) {
+      const loadPayPalScript = async () => {
+        paypalDispatch.dispatch({
+          type: "resetOptions",
+          value: {
+            clientId: paypal?.clientID,
+            currency: "USD",
+          },
+        });
+        paypalDispatch.dispatch({
+          type: "setLoadingStatus",
+          value: "pending",
+        });
+      };
+      if (data?.order && !data?.order.isPaid) {
+        if (!window.paypal) {
+          loadPayPalScript();
+        }
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [
+    errorPaypal,
+    loadingPaypal,
+    data?.order,
+    paypal?.clientID,
+    paypalDispatch,
+  ]);
 
   return (
     <>
@@ -35,18 +145,7 @@ const Order = () => {
                 ) : (
                   <div className="flex flex-col p-6 space-y-4 divide-y sm:p-10 divide-gray-700 bg-base-200">
                     <div>
-                      <h2 className="text-2xl font-semibold">
-                        Shipping Address
-                      </h2>
-                      <p className="pt-4 text-sm">{shippingAddress?.address}</p>
-                      <p className="pt-1 text-sm">
-                        {shippingAddress?.city}, {shippingAddress?.postalCode},{" "}
-                        {shippingAddress?.country}
-                      </p>
-                    </div>
-                    <div className="pt-4">
-                      <h2 className="text-2xl font-semibold">Payment Method</h2>
-                      <h6 className="text-sm pt-4">{paymentMethod}</h6>
+                      <h2 className="text-2xl font-semibold">Order Items</h2>
                     </div>
                     <ul className="flex flex-col divide-y divide-gray-700">
                       {cartItems?.map((item) => (
@@ -57,23 +156,23 @@ const Order = () => {
                           <div className="flex w-full space-x-2 sm:space-x-4">
                             <img
                               className="flex-shrink-0 object-cover w-20 h-12 dark:border-transparent rounded outline-none sm:w-20 sm:h-20 dark:bg-gray-500"
-                              src={item.image}
-                              alt={item.name}
+                              src={item?.image}
+                              alt={item?.name}
                             />
                             <div className="flex flex-col justify-between w-full pb-4">
                               <div className="flex justify-between w-full pb-2 space-x-2">
                                 <div className="space-y-1">
                                   <h3 className="text-lg font-semibold leading-normal sm:pr-8">
-                                    {item.name}
+                                    {item?.name}
                                   </h3>
                                   <p className="text-sm dark:text-gray-400">
-                                    <span className="pe-2">{item.brand}</span>
-                                    <span className="">{item.category}</span>
+                                    <span className="pe-2">{item?.brand}</span>
+                                    <span className="">{item?.category}</span>
                                   </p>
                                 </div>
                                 <div className="text-right">
                                   <p className="text-lg font-semibold">
-                                    ${item.price.toFixed(2)}
+                                    ${item?.price.toFixed(2)}
                                   </p>
                                 </div>
                               </div>
@@ -82,6 +181,28 @@ const Order = () => {
                         </li>
                       ))}
                     </ul>
+                    {isPaid && (
+                      <div className="pt-4">
+                        <h2 className="text-2xl font-semibold">Paid At</h2>
+                        <div className="py-4">
+                          <Message
+                            variant="alert-success"
+                            message={`Order Paid at ${formattedPaidTime} on ${formattedPaidDate} `}
+                          />
+                        </div>
+                      </div>
+                    )}
+                    {isDelivered && (
+                      <div className="pt-4">
+                        <h2 className="text-2xl font-semibold">Delivered At</h2>
+                        <div className="py-4">
+                          <Message
+                            variant="alert-error"
+                            message={`Order Delivered on ${formattedDeliveredTime} on ${formattedDeliveredDate} `}
+                          />
+                        </div>
+                      </div>
+                    )}
                   </div>
                 )}
               </div>
@@ -94,14 +215,14 @@ const Order = () => {
                     <ul className="flex flex-col pt-4 space-y-2">
                       {cartItems?.map((item) => (
                         <li
-                          key={item._id}
+                          key={item?._id}
                           className="flex items-start justify-between"
                         >
                           <h3>
-                            {item.name}
+                            {item?.name}
                             <span className="text-sm text-primary px-4 font-bold">
                               <FaTimes className="inline text-sm" />
-                              {item.quantity}
+                              {item?.quantity}
                             </span>
                           </h3>
                           <div className="text-right">
@@ -138,14 +259,30 @@ const Order = () => {
                             ${orderTotal.toFixed(2)}
                           </span>
                         </div>
-                        <button
-                          type="button"
-                          className="w-full py-2 font-semibold border rounded btn btn-primary"
-                        >
-                          Click to Pay
-                        </button>
                       </div>
                     </div>
+                    <div className="pt-4">
+                      <h2 className="text-2xl font-semibold">
+                        Shipping Address
+                      </h2>
+                      <p className="pt-4 text-sm">{shippingAddress?.address}</p>
+                      <p className="pt-1 text-sm">
+                        {shippingAddress?.city}, {shippingAddress?.postalCode},{" "}
+                        {shippingAddress?.country}
+                      </p>
+                    </div>
+                    <div className="pt-4">
+                      <h2 className="text-2xl font-semibold">Payment Method</h2>
+                      <h6 className="text-sm pt-4">{paymentMethod}</h6>
+                    </div>
+                    {!isPaid && (
+                      <PayPalButtons
+                        style={{ layout: "vertical" }}
+                        createOrder={createOrder}
+                        onApprove={onApprove}
+                        onError={onError}
+                      />
+                    )}
                   </div>
                 )}
               </div>

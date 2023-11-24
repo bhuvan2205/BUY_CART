@@ -38,14 +38,14 @@ const Shipping = () => {
     if (!address || !city || !postalCode || !country) {
       return toast.error("Fields cannot be empty", {
         closeOnClick: true,
-        pauseOnHover: true,
+        pauseOnHover: false,
       });
     }
 
     if (postalCode.trim().length !== 6 || postalCode.trim().length >= 7) {
       return toast.error("Postal Code is not Valid", {
         closeOnClick: true,
-        pauseOnHover: true,
+        pauseOnHover: false,
       });
     }
 
@@ -116,11 +116,7 @@ const Shipping = () => {
               />
             </div>
             <div className="my-4">
-              <button
-                className={`btn btn-primary ${false && "animate-spin"}`}
-                type="submit"
-                disabled={false}
-              >
+              <button className="btn btn-primary" type="submit">
                 Save Address
               </button>
             </div>

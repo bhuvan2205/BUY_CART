@@ -29,7 +29,7 @@ const Register = () => {
     if (!name || !email || !password || !confirmPassword) {
       return toast.error("Fields cannot be empty", {
         closeOnClick: true,
-        pauseOnHover: true,
+        pauseOnHover: false,
       });
     }
     try {
@@ -38,7 +38,7 @@ const Register = () => {
     } catch (error) {
       toast.error(error?.data?.message || error?.message, {
         closeOnClick: true,
-        pauseOnHover: true,
+        pauseOnHover: false,
       });
     }
   };

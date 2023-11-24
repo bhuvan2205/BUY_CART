@@ -64,14 +64,14 @@ const PlaceOrder = () => {
       const response = await createOrder(data).unwrap();
       toast.success("Order Placed Successfully", {
         closeOnClick: true,
-        pauseOnHover: true,
+        pauseOnHover: false,
       });
       dispatch(clearCartItems());
       navigate(`/order/${response?.order?._id}`);
     } catch (error) {
       toast.error(error?.data?.message || error?.message, {
         closeOnClick: true,
-        pauseOnHover: true,
+        pauseOnHover: false,
       });
     }
   };

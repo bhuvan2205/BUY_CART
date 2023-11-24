@@ -38,12 +38,12 @@ const Header = () => {
       dispatch(clearShippingAddress());
       toast.success("User Logged Out Successfully", {
         closeOnClick: true,
-        pauseOnHover: true,
+        pauseOnHover: false,
       });
     } catch (error) {
       toast.error(error?.data?.message || error?.message, {
         closeOnClick: true,
-        pauseOnHover: true,
+        pauseOnHover: false,
       });
     }
   };
