@@ -17,7 +17,7 @@ const Home = () => {
           variant="alert-error"
         />
       )}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-12 place-items-center md:place-items-start">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 place-items-center md:place-items-start">
         {isLoading && (
           <>
             {[...Array(3)].map((_, index) => (

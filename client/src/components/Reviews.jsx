@@ -1,9 +1,13 @@
 import { FaRegStar, FaStar, FaStarHalfAlt } from "react-icons/fa";
 
 const Reviews = (props) => {
-  const { rating = 1 } = props || {};
+  const { rating = 1, variant = "normal" } = props || {};
   return (
-    <div className="flex text-yellow-500 text-2xl justify-center items-center">
+    <div
+      className={`flex text-yellow-500 text-2xl justify-center items-center ${
+        variant === "small" ? "text-sm" : "text-2xl"
+      }`}
+    >
       {rating >= 1 ? (
         <FaStar />
       ) : rating >= 0.5 ? (

@@ -66,21 +66,19 @@ export const updateProduct = expressAsyncHandler(async (req, res) => {
   const {
     name,
     description,
-    rating,
-    numReviews,
     brand,
     price,
     category,
     countInStock,
+    image,
   } = req?.body || {};
 
   product.name = name || product?.name;
   product.description = description || product?.description;
-  product.rating = rating || product?.rating;
-  product.numReviews = numReviews || product?.numReviews;
   product.brand = brand || product?.brand;
   product.price = price || product?.price;
   product.category = category || product?.category;
+  product.image = image || product?.image;
   product.countInStock = countInStock || product?.countInStock;
 
   const updatedProduct = await product.save();

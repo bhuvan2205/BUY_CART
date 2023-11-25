@@ -1,3 +1,4 @@
+import path from "path";
 import express from "express";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
@@ -6,6 +7,7 @@ import { errorHandler, notFound } from "./middlewares/errorHandler.js";
 import productRoutes from "./routes/products.js";
 import userRoutes from "./routes/user.js";
 import orderRoutes from "./routes/order.js";
+import uploadFileRoutes from "./routes/images.js";
 
 dotenv.config();
 const app = express();
@@ -24,10 +26,25 @@ app.use((req, res, next) => {
 app.use("/api/users", userRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/orders", orderRoutes);
-app.use("/api/paypal", (req, res) => {
+app.use("/api/config/paypal", (req, res) => {
   res.status(200).json({ clientID: process.env.PAYPAL_CLIENT_ID });
 });
-app.get("/", (req, res) => res.send("Hello World!"));
+app.use("/api/uploads", uploadFileRoutes);
+
+const dirname = path.resolve();
+app.use("/uploads", express.static(path.join(dirname, "/uploads")));
+
+if (process.env.NODE_ENV !== "development") {
+  // Static folder
+  app.use(express.static(path.join(dirname, "/client/build")));
+
+  // Home page
+  app.get("*", (req, res) =>
+    res.sendFile(path.resolve(dirname, "client", "build", "index.html"))
+  );
+} else {
+  app.get("/", (req, res) => res.send("API is running..."));
+}
 
 app.use(notFound);
 app.use(errorHandler);

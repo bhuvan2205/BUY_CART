@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FaEdit, FaTrashAlt } from "react-icons/fa";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
@@ -11,6 +11,7 @@ import { toast } from "react-toastify";
 import Spinner from "../components/Spinner";
 
 const ProductList = () => {
+  const navigate = useNavigate();
   const { data, isLoading, isError, error } = useFetchProductsQuery();
   const [createProduct, { isLoading: creatingProduct }] =
     useCreateProductMutation();
@@ -107,7 +108,9 @@ const ProductList = () => {
                       <td>{product?.category}</td>
                       <td>${(product?.price ?? 0).toFixed(2)}</td>
                       <td>
-                        <FaEdit className="text-xl text-primary cursor-pointer" />
+                        <FaEdit className="text-xl text-primary cursor-pointer" onClick={() => {
+                          navigate(`/admin/product/edit/${product?._id}`)
+                        }} />
                       </td>
                       <td>
                         <FaTrashAlt
