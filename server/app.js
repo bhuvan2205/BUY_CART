@@ -8,6 +8,7 @@ import productRoutes from "./routes/products.js";
 import userRoutes from "./routes/user.js";
 import orderRoutes from "./routes/order.js";
 import uploadFileRoutes from "./routes/images.js";
+import cors from "cors";
 
 dotenv.config();
 const app = express();
@@ -15,6 +16,7 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(cors());
 
 const port = process.env.PORT || 8000;
 
@@ -36,11 +38,11 @@ app.use("/uploads", express.static(path.join(dirname, "/uploads")));
 
 if (process.env.NODE_ENV !== "development") {
   // Static folder
-  app.use(express.static(path.join(dirname, "/client/build")));
+  app.use(express.static(path.join(dirname, "/client/dist")));
 
   // Home page
   app.get("*", (req, res) =>
-    res.sendFile(path.resolve(dirname, "client", "build", "index.html"))
+    res.sendFile(path.resolve(dirname, "client", "dist", "index.html"))
   );
 } else {
   app.get("/", (req, res) => res.send("API is running..."));
