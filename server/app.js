@@ -24,6 +24,9 @@ app.use((req, res, next) => {
 app.use("/api/users", userRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/orders", orderRoutes);
+app.use("/api/paypal", (req, res) => {
+  res.status(200).json({ clientID: process.env.PAYPAL_CLIENT_ID });
+});
 app.get("/", (req, res) => res.send("Hello World!"));
 
 app.use(notFound);

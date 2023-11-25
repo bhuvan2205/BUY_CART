@@ -1,10 +1,20 @@
 import { Router } from "express";
-import { createOrder, getSingleOrder } from "../controllers/order.js";
+import {
+  createOrder,
+  deliverOrder,
+  getSingleOrder,
+  payOrder,
+  getMyOrders,
+} from "../controllers/order.js";
 import auth from "../middlewares/auth.js";
+import admin from "../middlewares/admin.js";
 
 const router = Router();
 
 router.post("/", auth, createOrder);
+router.get("/mine", auth, getMyOrders);
 router.get("/:id", auth, getSingleOrder);
+router.post("/:id/pay", auth, payOrder);
+router.post("/:id/deliver", auth, admin, deliverOrder);
 
 export default router;

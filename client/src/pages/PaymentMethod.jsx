@@ -10,8 +10,7 @@ const PaymentMethod = () => {
   const dispatch = useDispatch();
 
   const [paymentMethod, setPaymentMethod] = useState("");
-  console.log({ paymentMethod });
-
+  
   const {
     shippingAddress,
     cartItems,

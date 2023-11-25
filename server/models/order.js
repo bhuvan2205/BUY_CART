@@ -69,6 +69,7 @@ const orderSchema = Schema(
       status: { type: String },
       update_time: { type: String },
       email_address: { type: String },
+      name: { type: String },
     },
     subTotal: {
       required: true,

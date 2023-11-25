@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import {
   useFetchOrderQuery,
   useFetchPaypalClientIDQuery,
@@ -10,6 +10,7 @@ import Message from "../components/Message";
 import { toast } from "react-toastify";
 import { PayPalButtons, usePayPalScriptReducer } from "@paypal/react-paypal-js";
 import { useEffect } from "react";
+import { ROUTES } from "../constants/routes";
 
 const Order = () => {
   const { id } = useParams();
@@ -24,7 +25,6 @@ const Order = () => {
 
   const {
     shippingAddress,
-    paymentMethod,
     cartItems,
     subTotal = 0,
     orderTotal = 0,
@@ -55,21 +55,18 @@ const Order = () => {
     -2
   )}:${("0" + deliveredDate.getMinutes()).slice(-2)}`;
 
-  const createOrder = (data, actions) => {
-    return actions.order
-      .create({
-        purchase_units: [
-          {
-            amount: {
-              currency_code: "USD",
-              value: orderTotal.toFixed(2),
-            },
+  const createOrder = async (data, actions) => {
+    const orderID = await actions.order.create({
+      purchase_units: [
+        {
+          amount: {
+            currency_code: "USD",
+            value: orderTotal.toFixed(2),
           },
-        ],
-      })
-      .then((orderID) => {
-        return orderID;
-      });
+        },
+      ],
+    });
+    return orderID;
   };
 
   const onApprove = async (data, actions) => {
@@ -77,10 +74,6 @@ const Order = () => {
       const details = await actions.order.capture();
       const { payer } = details || {};
       await payOrder({ id, ...payer });
-      toast.success("Order Paid Successfully", {
-        closeOnClick: true,
-        pauseOnHover: false,
-      });
       refetch();
     } catch (error) {
       toast.error(error?.data?.message || error?.message, {
@@ -90,8 +83,7 @@ const Order = () => {
     }
   };
 
-  const onError = (data, actions) => {
-    console.log({ data, actions });
+  const onError = () => {
     toast.error("An Error occurs with Payment", {
       closeOnClick: true,
       pauseOnHover: true,
@@ -113,7 +105,7 @@ const Order = () => {
           value: "pending",
         });
       };
-      if (data?.order && !data?.order.isPaid) {
+      if (data?.order && !data?.order?.isPaid) {
         if (!window.paypal) {
           loadPayPalScript();
         }
@@ -131,7 +123,12 @@ const Order = () => {
   return (
     <>
       <div className="container mx-auto">
-        <div className="py-12">
+        <div className="py-8">
+          <Link to={ROUTES.HOME}>
+            <button className="btn  btn-primary">Go Home</button>
+          </Link>
+        </div>
+        <div>
           {isError ? (
             <Message
               variant="alert-error"
@@ -273,7 +270,7 @@ const Order = () => {
                     </div>
                     <div className="pt-4">
                       <h2 className="text-2xl font-semibold">Payment Method</h2>
-                      <h6 className="text-sm pt-4">{paymentMethod}</h6>
+                      <p className="text-sm pt-4">Paypal</p>
                     </div>
                     {!isPaid && (
                       <PayPalButtons
