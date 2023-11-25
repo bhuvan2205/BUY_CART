@@ -14,11 +14,13 @@ E-Commerce Project using MERN Stack
 * Node.js
 * MongoDB
 
-Setup .env file and copy content from .env-example and replace your actualy value
+# Setup in Local
 
-Start the MongoDB in local
+Create .env file and copy content from .env-example and replace your actual value
 
-In ubuntu, run the following command
+If you are using Mongo DB Atlas, use the Connection string from your cluster or you can use the MongoDB from your local
+
+In ubuntu, run the following command to start the MongoDB
  
 **sudo systemctl start mongod**
 
