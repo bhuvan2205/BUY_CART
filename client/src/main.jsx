@@ -22,6 +22,11 @@ import PlaceOrder from "./pages/PlaceOrder.jsx";
 import Order from "./pages/Order.jsx";
 import Profile from "./pages/Profile.jsx";
 import { PayPalScriptProvider } from "@paypal/react-paypal-js";
+import AdminRoute from "./components/AdminRoute.jsx";
+import Dashboard from "./pages/Dashboard.jsx";
+import OrderList from "./pages/OrderList.jsx";
+import ProductList from "./pages/ProductList.jsx";
+import UserList from "./pages/UserList.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -37,6 +42,12 @@ const router = createBrowserRouter(
         <Route path="/checkout/step3" element={<PlaceOrder />} />
         <Route path="/order/:id" element={<Order />} />
         <Route path="/profile" element={<Profile />} />
+      </Route>
+      <Route element={<AdminRoute />}>
+        <Route path="/admin/dashboard" element={<Dashboard />} />
+        <Route path="/admin/orderlist" element={<OrderList />} />
+        <Route path="/admin/productlist" element={<ProductList />} />
+        <Route path="/admin/userlist" element={<UserList />} />
       </Route>
     </Route>
   )

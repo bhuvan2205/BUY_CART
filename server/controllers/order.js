@@ -105,3 +105,12 @@ export const getMyOrders = expressAsyncHandler(async (req, res) => {
   }
   res.status(200).json({ orders });
 });
+
+export const getAllOrders = expressAsyncHandler(async (req, res) => {
+  const orders = await Order.find().populate("user", "email name");
+
+  if (!orders) {
+    res.status(200).json({ orders: [] });
+  }
+  res.status(200).json({ orders });
+});

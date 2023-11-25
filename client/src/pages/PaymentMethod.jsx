@@ -41,7 +41,7 @@ const PaymentMethod = () => {
       </div>
       <div className="flex justify-center items-center w-full flex-col">
         <div className="bg-base-200 p-12">
-          <h1 className="text-3xl">Choose Payment Method</h1>
+          <h1 className="text-2xl">Choose Payment Method</h1>
           <div className="form-control py-8">
             <label className="label cursor-pointer">
               <span className="label-text">PayPal or Credit Card</span>

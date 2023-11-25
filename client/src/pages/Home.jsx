@@ -8,7 +8,7 @@ const Home = () => {
 
   return (
     <div className="container mx-auto">
-      <h1 className="text-4xl py-8 font-bold text-center md:text-left">
+      <h1 className="text-xl py-8 font-bold text-center md:text-left">
         Latest Products
       </h1>
       {isError && (

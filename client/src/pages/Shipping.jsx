@@ -61,7 +61,7 @@ const Shipping = () => {
       </div>
       <div className="flex justify-center items-center w-full flex-col">
         <div className="bg-base-200 p-12">
-          <h1 className="text-3xl font-bold py-4">Shipping Address</h1>
+          <h1 className="text-2xl font-bold py-4">Shipping Address</h1>
           <form onSubmit={handleSubmit}>
             <div className="my-4">
               <label htmlFor="address" className="py-2 inline-block">

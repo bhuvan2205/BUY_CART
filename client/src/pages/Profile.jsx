@@ -12,11 +12,12 @@ import {
   FaStar,
   FaTimesCircle,
 } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ROUTES } from "../constants/routes";
 import { useFetchMyOrdersQuery } from "../features/orderApiSlice";
 
 const Profile = () => {
+  const navigate = useNavigate();
   const { data, isLoading, isError, error } = useProfileQuery();
   const {
     data: myOrders,
@@ -134,8 +135,20 @@ const Profile = () => {
                       </li>
                     </ul>
                     <div className="p-6 border-t mx-8 flex items-center justify-center">
-                      <button className="w-2/3  btn btn-primary rounded-full text-center">
-                        Edit Profile <FaEdit className="inline-block mx-2" />
+                      <button
+                        className="w-2/3  btn btn-primary rounded-full text-center"
+                        onClick={() => {
+                          navigate(data?.isAdmin ? "/admin/dashboard" : "#");
+                        }}
+                      >
+                        {data?.isAdmin ? (
+                          <>View Dashboard</>
+                        ) : (
+                          <>
+                            Edit Profile
+                            <FaEdit className="inline-block mx-2" />
+                          </>
+                        )}
                       </button>
                     </div>
                   </div>

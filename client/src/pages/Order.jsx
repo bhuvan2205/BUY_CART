@@ -13,6 +13,7 @@ import { PayPalButtons, usePayPalScriptReducer } from "@paypal/react-paypal-js";
 import { useEffect } from "react";
 import { ROUTES } from "../constants/routes";
 import { useSelector } from "react-redux";
+import Slider from "../components/Slider";
 
 const Order = () => {
   const { id } = useParams();
@@ -23,7 +24,8 @@ const Order = () => {
     isLoading: loadingPaypal,
     error: errorPaypal,
   } = useFetchPaypalClientIDQuery();
-  const [paypalDispatch] = usePayPalScriptReducer();
+  const [paypalDispatch, { isLoading: paypalLoading }] =
+    usePayPalScriptReducer();
   const [payOrder] = usePayOrderMutation();
   const [deliverOrder] = useDeliverOrderMutation();
 
@@ -289,12 +291,15 @@ const Order = () => {
                       <p className="text-sm pt-4">Paypal</p>
                     </div>
                     {!isPaid && (
-                      <PayPalButtons
-                        style={{ layout: "vertical" }}
-                        createOrder={createOrder}
-                        onApprove={onApprove}
-                        onError={onError}
-                      />
+                      <>
+                        {paypalLoading && <Slider />}
+                        <PayPalButtons
+                          style={{ layout: "vertical" }}
+                          createOrder={createOrder}
+                          onApprove={onApprove}
+                          onError={onError}
+                        />
+                      </>
                     )}
                     {user?.isAdmin && isPaid && !isDelivered && (
                       <div className="pt-4">

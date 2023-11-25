@@ -26,6 +26,9 @@ export const userAPI = apiSlice.injectEndpoints({
     profile: builder.query({
       query: () => `${API_ENDPOINTS.USERS}/profile`,
     }),
+    fetchAllUsers: builder.query({
+      query: () => `${API_ENDPOINTS.USERS}`,
+    }),
   }),
 });
 
@@ -34,4 +37,5 @@ export const {
   useLoginMutation,
   useProfileQuery,
   useLogoutMutation,
+  useFetchAllUsersQuery,
 } = userAPI;
