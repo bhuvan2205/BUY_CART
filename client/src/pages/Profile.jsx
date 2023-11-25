@@ -47,7 +47,7 @@ const Profile = () => {
             <div className="col-span-8 col-start-1">
               {fetchingOrders && <Skeleton />}
               <div className="overflow-x-auto py-8">
-                <table className="table bg-base-200">
+                <table className="table bg-base-200 shadow-xl rounded-lg overflow-hidden">
                   {/* head */}
                   <thead className="bg-base-300">
                     <tr className="text-lg">
@@ -97,7 +97,7 @@ const Profile = () => {
               {isLoading && <Skeleton />}
               {data && (
                 <>
-                  <div className="max-w-2xl mx-4 sm:max-w-sm md:max-w-sm lg:max-w-sm xl:max-w-sm sm:mx-auto md:mx-auto lg:mx-auto xl:mx-auto py-8 shadow-xl rounded-lg ">
+                  <div className="max-w-2xl mx-4 sm:max-w-sm md:max-w-sm lg:max-w-sm xl:max-w-sm sm:mx-auto md:mx-auto lg:mx-auto xl:mx-auto py-8 shadow-xl rounded-lg">
                     <div className="rounded-t-lg h-32 overflow-hidden bg-base-200">
                       <img
                         className="object-cover object-top w-full"

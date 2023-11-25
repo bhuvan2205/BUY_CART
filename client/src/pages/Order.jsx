@@ -1,5 +1,6 @@
 import { Link, useParams } from "react-router-dom";
 import {
+  useDeliverOrderMutation,
   useFetchOrderQuery,
   useFetchPaypalClientIDQuery,
   usePayOrderMutation,
@@ -11,9 +12,11 @@ import { toast } from "react-toastify";
 import { PayPalButtons, usePayPalScriptReducer } from "@paypal/react-paypal-js";
 import { useEffect } from "react";
 import { ROUTES } from "../constants/routes";
+import { useSelector } from "react-redux";
 
 const Order = () => {
   const { id } = useParams();
+  const { user } = useSelector((state) => state?.auth);
   const { data, isLoading, isError, error, refetch } = useFetchOrderQuery(id);
   const {
     data: paypal,
@@ -22,6 +25,7 @@ const Order = () => {
   } = useFetchPaypalClientIDQuery();
   const [paypalDispatch] = usePayPalScriptReducer();
   const [payOrder] = usePayOrderMutation();
+  const [deliverOrder] = useDeliverOrderMutation();
 
   const {
     shippingAddress,
@@ -36,24 +40,17 @@ const Order = () => {
     deliveredAt = "",
   } = data?.order || {};
 
-  const paidDate = new Date(paidAt);
-  const formattedPaidDate = `${("0" + paidDate.getDate()).slice(-2)}/${(
-    "0" +
-    (paidDate.getMonth() + 1)
-  ).slice(-2)}/${paidDate.getFullYear()}`;
-  const formattedPaidTime = `${("0" + paidDate.getHours()).slice(-2)}:${(
-    "0" + paidDate.getMinutes()
-  ).slice(-2)}`;
-
-  const deliveredDate = new Date(deliveredAt);
-  const formattedDeliveredDate = `${("0" + deliveredDate.getDate()).slice(
-    -2
-  )}/${("0" + (deliveredDate.getMonth() + 1)).slice(
-    -2
-  )}/${deliveredDate.getFullYear()}`;
-  const formattedDeliveredTime = `${("0" + deliveredDate.getHours()).slice(
-    -2
-  )}:${("0" + deliveredDate.getMinutes()).slice(-2)}`;
+  const handleDeliver = async () => {
+    try {
+      await deliverOrder({ id });
+      refetch();
+    } catch (error) {
+      toast.error(error?.data?.message || error?.message, {
+        closeOnClick: true,
+        pauseOnHover: false,
+      });
+    }
+  };
 
   const createOrder = async (data, actions) => {
     const orderID = await actions.order.create({
@@ -119,6 +116,25 @@ const Order = () => {
     paypal?.clientID,
     paypalDispatch,
   ]);
+
+  const paidDate = new Date(paidAt);
+  const formattedPaidDate = `${("0" + paidDate.getDate()).slice(-2)}/${(
+    "0" +
+    (paidDate.getMonth() + 1)
+  ).slice(-2)}/${paidDate.getFullYear()}`;
+  const formattedPaidTime = `${("0" + paidDate.getHours()).slice(-2)}:${(
+    "0" + paidDate.getMinutes()
+  ).slice(-2)}`;
+
+  const deliveredDate = new Date(deliveredAt);
+  const formattedDeliveredDate = `${("0" + deliveredDate.getDate()).slice(
+    -2
+  )}/${("0" + (deliveredDate.getMonth() + 1)).slice(
+    -2
+  )}/${deliveredDate.getFullYear()}`;
+  const formattedDeliveredTime = `${("0" + deliveredDate.getHours()).slice(
+    -2
+  )}:${("0" + deliveredDate.getMinutes()).slice(-2)}`;
 
   return (
     <>
@@ -194,8 +210,8 @@ const Order = () => {
                         <h2 className="text-2xl font-semibold">Delivered At</h2>
                         <div className="py-4">
                           <Message
-                            variant="alert-error"
-                            message={`Order Delivered on ${formattedDeliveredTime} on ${formattedDeliveredDate} `}
+                            variant="alert-success"
+                            message={`Order Delivered at ${formattedDeliveredTime} on ${formattedDeliveredDate} `}
                           />
                         </div>
                       </div>
@@ -279,6 +295,19 @@ const Order = () => {
                         onApprove={onApprove}
                         onError={onError}
                       />
+                    )}
+                    {user?.isAdmin && isPaid && !isDelivered && (
+                      <div className="pt-4">
+                        <h2 className="text-2xl font-semibold">
+                          Mark it Delivered
+                        </h2>
+                        <button
+                          className="btn btn-primary mt-4"
+                          onClick={handleDeliver}
+                        >
+                          Delivered
+                        </button>
+                      </div>
                     )}
                   </div>
                 )}

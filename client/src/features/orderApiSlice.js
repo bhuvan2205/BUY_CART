@@ -26,6 +26,13 @@ export const orderAPI = apiSlice.injectEndpoints({
         method: "POST",
       }),
     }),
+    deliverOrder: builder.mutation({
+      query: (data) => ({
+        url: `${API_ENDPOINTS.ORDER}/${data?.id}/deliver`,
+        body: data,
+        method: "POST",
+      }),
+    }),
     fetchPaypalClientID: builder.query({
       query: () => `${API_ENDPOINTS.PAYPAL}`,
       keepUnusedDataFor: 5,
@@ -39,4 +46,5 @@ export const {
   usePayOrderMutation,
   useFetchPaypalClientIDQuery,
   useFetchMyOrdersQuery,
+  useDeliverOrderMutation,
 } = orderAPI;
