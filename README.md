@@ -1,6 +1,12 @@
 # BUY_CART
 E-Commerce Project using MERN Stack
 
+# Live URL
+https://buy-cart.onrender.com/
+
+# API Documentation
+https://documenter.getpostman.com/view/26098056/2s9YeD9DH6
+
 **Frontend** - In the frontend side, we would be using React as the frontend library. We would use Redux for state management. We would use React Bootstrap library for basic designing of the interface.
 
 **Backend** - For the backend side, we would be using the Express library on top of Nodejs. We would use MongoDB as the NoSQL database to store our data as documents in JSON format. We would use mongoose to connect to our MongoDB database.
@@ -39,7 +45,7 @@ In ubuntu, run the following command to start the MongoDB
  
 **npm run client**
  
- 
- To run the server and client simultaneously, from the root, run the below command 
+
+To run the server and client simultaneously, from the root directory, run the following command 
  
 **npm run dev**
