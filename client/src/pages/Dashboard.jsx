@@ -24,7 +24,7 @@ const Dashboard = () => {
     isLoading: fetchingOrders,
     isError: isErrorOrders,
     error: ordersError,
-  } = useFetchAllOrdersQuery();
+  } = useFetchAllOrdersQuery({ limit: 5, page: 1 });
   const navigate = useNavigate();
   return (
     <div className="container mx-auto">
@@ -52,7 +52,7 @@ const Dashboard = () => {
                     </div>
                     <div className="stat-title">Total Orders</div>
                     <div className="stat-value text-primary">
-                      {orders?.orders?.length ?? 0}K
+                      {orders?.orders?.length ?? 0}
                     </div>
                     <div className="stat-desc">21% more than last month</div>
                     <span
@@ -61,7 +61,7 @@ const Dashboard = () => {
                         navigate("/admin/orderlist");
                       }}
                     >
-                      View All
+                      View All 
                     </span>
                   </>
                 )}
@@ -75,7 +75,7 @@ const Dashboard = () => {
                   </div>
                 </div>
                 <div className="stat-title">Active Users</div>
-                <div className="stat-value text-secondary">2K</div>
+                <div className="stat-value text-secondary">2</div>
                 <div className="stat-desc">39% more than last month</div>
                 <span
                   className="badge cursor-pointer badge-secondary mt-4"
@@ -101,7 +101,7 @@ const Dashboard = () => {
                 </div>
                 <div className="stat-title">Available Products</div>
                 <div className="stat-value text-info">
-                  {data?.products?.length * 10 ?? 0}
+                  {data?.products?.length ?? 0}
                 </div>
                 <div className="stat-desc">30 sales in Last month</div>
                 <span
@@ -138,7 +138,7 @@ const Dashboard = () => {
                   </thead>
                   <tbody>
                     {orders?.orders &&
-                      orders?.orders?.slice(0, 5).map((order, index) => (
+                      orders?.orders?.map((order, index) => (
                         <tr key={order?._id}>
                           <th>{index + 1}</th>
                           <td>

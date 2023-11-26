@@ -107,10 +107,45 @@ export const getMyOrders = expressAsyncHandler(async (req, res) => {
 });
 
 export const getAllOrders = expressAsyncHandler(async (req, res) => {
-  const orders = await Order.find().populate("user", "email name");
+  const { page = 1, limit = 5 } = req?.query || {};
+  const options = {
+    page,
+    limit,
+    collation: {
+      locale: "en",
+    },
+  };
+
+  const data = await Order.paginate({}, options);
+
+  const { totalPages, hasNextPage, hasPrevPage, totalDocs, pagingCounter } =
+    data || {};
+
+  const orders = await Order.find()
+    .populate("user", "email name")
+    .limit(limit)
+    .skip(limit * (page - 1))
+    .sort({
+      name: "asc",
+    });
 
   if (!orders) {
-    res.status(200).json({ orders: [] });
+    res.status(200).json({
+      orders: [],
+      totalPages: 0,
+      hasNextPage: false,
+      hasPrevPage: false,
+      totalDocs: 0,
+      pagingCounter: 0,
+    });
   }
-  res.status(200).json({ orders });
+
+  res.status(200).json({
+    orders,
+    totalPages,
+    hasNextPage,
+    hasPrevPage,
+    totalDocs,
+    pagingCounter,
+  });
 });

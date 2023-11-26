@@ -1,4 +1,5 @@
 import { API_ENDPOINTS } from "../constants/endpoints";
+import { ORDERS_PAGE_LIMIT } from "../constants/query-key";
 import apiSlice from "./apiSlice";
 
 export const orderAPI = apiSlice.injectEndpoints({
@@ -15,7 +16,10 @@ export const orderAPI = apiSlice.injectEndpoints({
       keepUnusedDataFor: 5,
     }),
     fetchAllOrders: builder.query({
-      query: () => `${API_ENDPOINTS.ORDER}`,
+      query: (data) =>
+        `${API_ENDPOINTS.ORDER}?page=${data?.page}&limit=${
+          data?.limit ?? ORDERS_PAGE_LIMIT
+        }`,
       keepUnusedDataFor: 5,
       providesTags: ["Order"],
     }),

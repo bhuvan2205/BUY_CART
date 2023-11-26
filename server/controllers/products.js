@@ -3,13 +3,40 @@ import Product from "../models/products.js";
 import checkValidObjectID from "../utils/checkValidObjectID.js";
 
 export const getAllProducts = expressAsyncHandler(async (req, res) => {
+  const { page = 1, limit = 5 } = req?.query || {};
+  const options = {
+    page,
+    limit,
+    collation: {
+      locale: "en",
+    },
+  };
+
+  const data = await Product.paginate({}, options);
+
+  const { totalPages, hasNextPage, hasPrevPage, totalDocs, pagingCounter } =
+    data || {};
   const products = await Product.find({});
 
   if (!products) {
-    res.status(200).json({ products: [] });
+    res.status(200).json({
+      products: [],
+      totalPages: 0,
+      hasNextPage: false,
+      hasPrevPage: false,
+      totalDocs: 0,
+      pagingCounter: 0,
+    });
   }
 
-  res.status(200).json({ products });
+  res.status(200).json({
+    products,
+    totalPages,
+    hasNextPage,
+    hasPrevPage,
+    totalDocs,
+    pagingCounter,
+  });
 });
 
 export const getSingleProduct = expressAsyncHandler(async (req, res) => {
@@ -63,15 +90,8 @@ export const updateProduct = expressAsyncHandler(async (req, res) => {
     throw Error("Product not Found!");
   }
 
-  const {
-    name,
-    description,
-    brand,
-    price,
-    category,
-    countInStock,
-    image,
-  } = req?.body || {};
+  const { name, description, brand, price, category, countInStock, image } =
+    req?.body || {};
 
   product.name = name || product?.name;
   product.description = description || product?.description;

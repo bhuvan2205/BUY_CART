@@ -3,9 +3,11 @@ import { useFetchAllUsersQuery } from "../features/userApiSlice";
 import { Link } from "react-router-dom";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
+import { useState } from "react";
 
 const UserList = () => {
-  const { data, isLoading, isError, error } = useFetchAllUsersQuery();
+  const [page, setPage] = useState(1);
+  const { data, isLoading, isError, error } = useFetchAllUsersQuery({ page });
   return (
     <div className="container mx-auto">
       <div className="py-8">
@@ -57,6 +59,29 @@ const UserList = () => {
                   ))}
               </tbody>
             </table>
+            <div className="py-8">
+              <div className="join">
+                <button
+                  className="join-item btn text-primary"
+                  disabled={!data?.hasPrevPage}
+                  onClick={() => {
+                    setPage((prevState) => prevState - 1);
+                  }}
+                >
+                  «
+                </button>
+                <button className="join-item btn">Page {page}</button>
+                <button
+                  className="join-item btn text-primary"
+                  disabled={!data?.hasNextPage}
+                  onClick={() => {
+                    setPage((prevState) => prevState + 1);
+                  }}
+                >
+                  »
+                </button>
+              </div>
+            </div>
           </>
         )}
       </div>

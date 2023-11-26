@@ -1,10 +1,14 @@
 import { API_ENDPOINTS } from "../constants/endpoints";
+import { PRODUCT_PAGE_LIMIT } from "../constants/query-key";
 import apiSlice from "./apiSlice";
 
 export const productAPI = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     fetchProducts: builder.query({
-      query: () => API_ENDPOINTS.PRODUCTS,
+      query: (data) =>
+        `${API_ENDPOINTS.PRODUCTS}?page=${data?.page}&limit=${
+          data?.limit ?? PRODUCT_PAGE_LIMIT
+        }`,
       keepUnusedDataFor: 5,
       providesTags: ["Products"],
     }),

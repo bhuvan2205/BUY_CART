@@ -1,4 +1,5 @@
 import { API_ENDPOINTS } from "../constants/endpoints";
+import { USERS_PAGE_LIMIT } from "../constants/query-key";
 import apiSlice from "./apiSlice";
 
 export const userAPI = apiSlice.injectEndpoints({
@@ -27,7 +28,11 @@ export const userAPI = apiSlice.injectEndpoints({
       query: () => `${API_ENDPOINTS.USERS}/profile`,
     }),
     fetchAllUsers: builder.query({
-      query: () => `${API_ENDPOINTS.USERS}`,
+      query: (data) =>
+        `${API_ENDPOINTS.USERS}?page=${data?.page}&limit=${
+          data?.limit ?? USERS_PAGE_LIMIT
+        }`,
+      providesTags: ["User"],
     }),
   }),
 });

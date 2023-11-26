@@ -3,14 +3,17 @@ import { Link } from "react-router-dom";
 import { FaCheckCircle, FaTimesCircle } from "react-icons/fa";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
+import { useState } from "react";
 
 const OrderList = () => {
+  const [page, setPage] = useState(1);
   const {
     data,
     isLoading: fetchingOrders,
     isError: isErrorOrders,
     error: ordersError,
-  } = useFetchAllOrdersQuery();
+  } = useFetchAllOrdersQuery({ page });
+
   return (
     <div className="container mx-auto">
       <div className="py-8">
@@ -78,6 +81,31 @@ const OrderList = () => {
                   ))}
               </tbody>
             </table>
+            <div className="py-8">
+              <div className="join">
+                <button
+                  className="join-item btn text-primary"
+                  disabled={!data?.hasPrevPage}
+                  onClick={() => {
+                    setPage((prevState) => prevState - 1);
+                  }}
+                >
+                  «
+                </button>
+                <button className="join-item btn">
+                  Page {page}
+                </button>
+                <button
+                  className="join-item btn text-primary"
+                  disabled={!data?.hasNextPage}
+                  onClick={() => {
+                    setPage((prevState) => prevState + 1);
+                  }}
+                >
+                  »
+                </button>
+              </div>
+            </div>
           </>
         )}
       </div>

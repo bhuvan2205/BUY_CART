@@ -1,4 +1,5 @@
 import mongoose, { Schema } from "mongoose";
+import mongoosePaginate from "mongoose-paginate-v2";
 
 const shippingAddressSchema = Schema({
   address: {
@@ -110,6 +111,8 @@ const orderSchema = Schema(
   },
   { timestamps: true }
 );
+
+orderSchema.plugin(mongoosePaginate);
 
 const order = mongoose.model("Order", orderSchema);
 

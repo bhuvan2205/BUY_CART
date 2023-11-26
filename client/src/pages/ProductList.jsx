@@ -9,10 +9,13 @@ import {
 } from "../features/productApiSice";
 import { toast } from "react-toastify";
 import Spinner from "../components/Spinner";
+import { useState } from "react";
 
 const ProductList = () => {
+  const [page, setPage] = useState(1);
+
   const navigate = useNavigate();
-  const { data, isLoading, isError, error } = useFetchProductsQuery();
+  const { data, isLoading, isError, error } = useFetchProductsQuery({ page });
   const [createProduct, { isLoading: creatingProduct }] =
     useCreateProductMutation();
 
@@ -108,9 +111,12 @@ const ProductList = () => {
                       <td>{product?.category}</td>
                       <td>${(product?.price ?? 0).toFixed(2)}</td>
                       <td>
-                        <FaEdit className="text-xl text-primary cursor-pointer" onClick={() => {
-                          navigate(`/admin/product/edit/${product?._id}`)
-                        }} />
+                        <FaEdit
+                          className="text-xl text-primary cursor-pointer"
+                          onClick={() => {
+                            navigate(`/admin/product/edit/${product?._id}`);
+                          }}
+                        />
                       </td>
                       <td>
                         <FaTrashAlt
@@ -123,6 +129,30 @@ const ProductList = () => {
                   ))}
               </tbody>
             </table>
+
+            <div className="py-8">
+              <div className="join">
+                <button
+                  className="join-item btn text-primary"
+                  disabled={!data?.hasPrevPage}
+                  onClick={() => {
+                    setPage((prevState) => prevState - 1);
+                  }}
+                >
+                  «
+                </button>
+                <button className="join-item btn">Page {page}</button>
+                <button
+                  className="join-item btn text-primary"
+                  disabled={!data?.hasNextPage}
+                  onClick={() => {
+                    setPage((prevState) => prevState + 1);
+                  }}
+                >
+                  »
+                </button>
+              </div>
+            </div>
           </>
         )}
       </div>
