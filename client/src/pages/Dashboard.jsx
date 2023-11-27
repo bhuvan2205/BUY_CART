@@ -36,7 +36,7 @@ const Dashboard = () => {
         </div>
         <div className="lg:grid lg:grid-cols-12 gap-8">
           <div className="col-span-9 col-start-1">
-            <div className="flex w-full shadow bg-base-300 p-4 divide-x-2">
+            <div className="flex w-full shadow-lg bg-base-200 p-4 divide-x-2 rounded-lg overflow-hidden">
               <div className="stat">
                 {fetchingOrders && <Slider />}
                 {isErrorOrders && (

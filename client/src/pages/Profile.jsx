@@ -6,7 +6,6 @@ import cover from "../assets/cover.jpg";
 import {
   FaBox,
   FaCheckCircle,
-  FaEdit,
   FaEnvelope,
   FaHeart,
   FaStar,
@@ -98,7 +97,7 @@ const Profile = () => {
               {isLoading && <Skeleton />}
               {data && (
                 <>
-                  <div className="max-w-2xl mx-4 sm:max-w-sm md:max-w-sm lg:max-w-sm xl:max-w-sm sm:mx-auto md:mx-auto lg:mx-auto xl:mx-auto py-8 shadow-xl rounded-lg">
+                  <div className="max-w-2xl mx-4 sm:max-w-sm md:max-w-sm lg:max-w-sm xl:max-w-sm sm:mx-auto md:mx-auto lg:mx-auto xl:mx-auto shadow-xl rounded-lg">
                     <div className="rounded-t-lg h-32 overflow-hidden bg-base-200">
                       <img
                         className="object-cover object-top w-full"
@@ -135,21 +134,16 @@ const Profile = () => {
                       </li>
                     </ul>
                     <div className="p-6 border-t mx-8 flex items-center justify-center">
-                      <button
-                        className="w-2/3  btn btn-primary rounded-full text-center"
-                        onClick={() => {
-                          navigate(data?.isAdmin ? "/admin/dashboard" : "#");
-                        }}
-                      >
-                        {data?.isAdmin ? (
-                          <>View Dashboard</>
-                        ) : (
-                          <>
-                            Edit Profile
-                            <FaEdit className="inline-block mx-2" />
-                          </>
-                        )}
-                      </button>
+                      {data?.isAdmin && (
+                        <button
+                          className="w-2/3  btn btn-primary rounded-full text-center"
+                          onClick={() => {
+                            navigate(data?.isAdmin ? "/admin/dashboard" : "#");
+                          }}
+                        >
+                          View Dashboard
+                        </button>
+                      )}
                     </div>
                   </div>
                 </>

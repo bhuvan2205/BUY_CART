@@ -24,7 +24,7 @@ const Cart = () => {
   return (
     <div className="container mx-auto">
       <div className="py-8 grid grid-cols-1 lg:grid-cols-2 gap-8">
-        <div className="flex flex-col max-w-3xl p-6 space-y-4 sm:p-10 bg-base-200">
+        <div className="flex flex-col max-w-3xl p-6 space-y-4 sm:p-10 bg-base-200 rounded-lg overflow-hidden shadow-lg">
           <h2 className="text-2xl font-semibold">Your cart</h2>
           <ul className="flex flex-col divide-y divide-gray-700">
             {cartItems?.map((item) => (
@@ -117,7 +117,7 @@ const Cart = () => {
           </div>
         </div>
         <div>
-          <div className="flex flex-col max-w-md p-6 space-y-4 divide-y sm:w-96 sm:p-10 divide-gray-700 bg-base-200">
+          <div className="flex flex-col max-w-md p-6 space-y-4 divide-y sm:w-96 sm:p-10 divide-gray-700 bg-base-200 rounded-lg overflow-hidden shadow-lg">
             <h2 className="text-2xl font-semibold">Order items</h2>
             <ul className="flex flex-col pt-4 space-y-2">
               {cartItems?.map((item) => (

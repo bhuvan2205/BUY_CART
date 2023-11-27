@@ -40,7 +40,7 @@ const PaymentMethod = () => {
         <CheckoutSteps steps={3} />
       </div>
       <div className="flex justify-center items-center w-full flex-col">
-        <div className="bg-base-200 p-12">
+        <div className="bg-base-200 p-12 rounded-lg overflow-hidden shadow-lg">
           <h1 className="text-2xl">Choose Payment Method</h1>
           <div className="form-control py-8">
             <label className="label cursor-pointer">

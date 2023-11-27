@@ -2,14 +2,26 @@ import { useFetchProductsQuery } from "../features/productApiSice";
 import Card from "../components/Card";
 import Placeholder from "../components/Placeholder";
 import Message from "../components/Message";
+import { Link, useParams } from "react-router-dom";
+import { ROUTES } from "../constants/routes";
 
 const Home = () => {
-  const { data, isLoading, error, isError } = useFetchProductsQuery();
+  const { keywords } = useParams();
+  const { data, isLoading, error, isError } = useFetchProductsQuery({
+    keywords,
+  });
 
   return (
     <div className="container mx-auto">
+      {keywords && (
+        <div className="pt-8">
+          <Link to={ROUTES.HOME}>
+            <button className="btn  btn-primary">Go Home</button>
+          </Link>
+        </div>
+      )}
       <h1 className="text-xl py-8 font-bold text-center md:text-left">
-        Latest Products
+        {!keywords ? "Latest Products" : "Product Results"}
       </h1>
       {isError && (
         <Message
@@ -17,7 +29,7 @@ const Home = () => {
           variant="alert-error"
         />
       )}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 place-items-center md:place-items-start">
+      <div className="gap-12 pb-8 lg:pb-12 grid grid-cols-1 place-items-center md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 place-content-between md:place-items-stretch">
         {isLoading && (
           <>
             {[...Array(3)].map((_, index) => (
@@ -25,6 +37,8 @@ const Home = () => {
             ))}
           </>
         )}
+
+        {keywords && data?.products?.length === 0 && <h4 className="text-3xl font-bold">No Products available :(</h4>}
 
         {data &&
           data?.products?.map((product, index) => (

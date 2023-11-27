@@ -3,7 +3,7 @@ import Product from "../models/products.js";
 import checkValidObjectID from "../utils/checkValidObjectID.js";
 
 export const getAllProducts = expressAsyncHandler(async (req, res) => {
-  const { page = 1, limit = 5 } = req?.query || {};
+  const { page = 1, limit = 5, keywords = "" } = req?.query || {};
   const options = {
     page,
     limit,
@@ -12,11 +12,14 @@ export const getAllProducts = expressAsyncHandler(async (req, res) => {
     },
   };
 
+  const keyword = keywords ? { name: { $regex: keywords, $options: "i" } } : {};
+
   const data = await Product.paginate({}, options);
 
   const { totalPages, hasNextPage, hasPrevPage, totalDocs, pagingCounter } =
     data || {};
-  const products = await Product.find({});
+
+  const products = await Product.find({ ...keyword });
 
   if (!products) {
     res.status(200).json({

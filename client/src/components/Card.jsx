@@ -12,7 +12,7 @@ const Card = (props) => {
   }
   return (
     <>
-      <div className="relative flex w-full max-w-xs flex-col overflow-hidden rounded-lg border border-base-300 bg-base-200 shadow-md">
+      <div className="relative flex w-full max-w-sm flex-col overflow-hidden rounded-lg border border-base-300 bg-base-200 shadow-md">
         <Link to={`/product/${id}`}>
           <img
             className="object-cover md:h-60 w-full"
@@ -24,7 +24,7 @@ const Card = (props) => {
         <div className="mt-4 px-5 pb-5">
           <a href="#">
             <h5 className="text-xl tracking-tight truncate">
-              {title.charAt(0).toUpperCase() + title.slice(1)}
+              {title?.charAt(0)?.toUpperCase() + title.slice(1)}
             </h5>
           </a>
           <div className="mt-2 mb-5 flex items-center justify-between">
@@ -33,7 +33,7 @@ const Card = (props) => {
                 ${Number(price).toFixed(2)}{" "}
               </span>
               <span className="text-sm  line-through">
-                ${(Number(price) * 10.2).toFixed(2)}
+                ${(Number(price) * 1.1).toFixed(2)}
               </span>
             </p>
             <div className="flex items-center">

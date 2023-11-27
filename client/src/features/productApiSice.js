@@ -8,7 +8,7 @@ export const productAPI = apiSlice.injectEndpoints({
       query: (data) =>
         `${API_ENDPOINTS.PRODUCTS}?page=${data?.page}&limit=${
           data?.limit ?? PRODUCT_PAGE_LIMIT
-        }`,
+        }&keywords=${data?.keywords ?? ""}`,
       keepUnusedDataFor: 5,
       providesTags: ["Products"],
     }),

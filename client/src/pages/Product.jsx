@@ -34,69 +34,96 @@ const Product = () => {
             />
           )}
           {isLoading && <Loader />}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 place-items-center">
-            {data && (
-              <>
-                <div>
-                  <figure>
-                    <img src={data?.product?.image} alt={data?.product?.name} />
-                  </figure>
-                </div>
-                <div className="text-center lg:ps-12">
-                  <h1 className="text-3xl pb-4">{data?.product?.name}</h1>
-                  <h2 className="text-2xl py-4">Ratings:</h2>
-                  <Reviews className="py-8" rating={data?.product?.rating} />
-                  <p className="py-4 text-justify">
+          {data && (
+            <>
+              <div className="rounded-lg overflow-hidden">
+                <img
+                  src={data?.product?.image}
+                  alt={data?.product?.name}
+                  className="h-96 w-full object-cover md:h-[500px]"
+                />
+              </div>
+              <div className="grid gap-8 grid-cols-12 py-8">
+                <div className="col-span-6 col-start-1 bg-base-200 p-8 shadow-lg rounded-lg overflow-hidden">
+                  <h1 className="font-bold text-xl">
+                    {data?.product?.name?.charAt(0)?.toUpperCase() +
+                      data?.product?.name?.slice(1)}
+                  </h1>
+                  <h6 className="py-4 text-justify">
                     {data?.product?.description}
-                  </p>
+                  </h6>
+                  <div className="flex justify-between">
+                    <div>
+                      <h6 className="text-lg font-bold">Price</h6>
+                      <p className="text-xl font-bold">
+                        ${data?.product?.price?.toFixed(2)}
+                      </p>
+                    </div>
+                    <div>
+                      <h6 className="text-lg font-bold">Reviews:</h6>
+                      <div className="flex">
+                        <Reviews
+                          rating={data?.product?.rating}
+                          variant="small"
+                        />
+                        <span className="ms-2 text-sm">
+                          {data?.product?.numReviews} Reviews
+                        </span>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <div className="stats stats-vertical shadow bg-base-200 p-4">
-                  <div className="stat">
-                    <div className="stat-title text-xl font-bold">Price</div>
-                    <div className="stat-value">${data?.product?.price}</div>
+                <div className="col-span-3 col-start-7 shadow-lg p-8 bg-base-200 rounded-lg overflow-hidden">
+                  <h2 className="font-bold pb-4">Product Details</h2>
+                  <div className="py-2 flex justify-between">
+                    <p>Brand: </p>
+                    <span className="text-left w-1/2">
+                      {data?.product?.brand}
+                    </span>
                   </div>
-                  <div className="stat">
-                    <div className="stat-title text-xl font-bold">
-                      {data?.product?.countInStock > 0 ? (
-                        <span className="badge badge-success">In Stock</span>
-                      ) : (
-                        <span className="badge badge-error">Out of Stock</span>
-                      )}
-                    </div>
+                  <div className="py-2 flex justify-between">
+                    <p>Category: </p>
+                    <span className="text-left w-1/2">
+                      {data?.product?.category}
+                    </span>
                   </div>
-                  <div className="stat">
-                    <div className="stat-title text-xl font-bold">
-                      Select Quantity
-                    </div>
-                    <select
-                      id="quantity"
-                      className="p-2 mt-2 bg-base-300"
-                      onChange={(e) => setQuantity(Number(e.target.value))}
-                    >
-                      {[...Array(data?.product?.countInStock)].map(
-                        (_, index) => (
-                          <option key={index} className="px-1">
-                            {index + 1}
-                          </option>
-                        )
-                      )}
-                    </select>
-                  </div>
-                  <div className="stat text-center">
-                    <div className="stat-actions">
+                  <div className="py-2 flex justify-between items-center">
+                    <h6>Select Quantity:</h6>
+                    <div className="join w-1/2 text-left">
                       <button
-                        className="btn btn-primary"
-                        disabled={data?.product?.countInStock === 0}
-                        onClick={addToCartHandler}
+                        className="join-item btn btn-neutral"
+                        disabled={quantity === 1}
+                        onClick={() =>
+                          setQuantity((prevState) => prevState - 1)
+                        }
                       >
-                        Add to Cart
+                        -
+                      </button>
+                      <span className="join-item btn">{quantity}</span>
+                      <button
+                        className="join-item btn btn-neutral"
+                        disabled={quantity === data?.product?.countInStock}
+                        onClick={() =>
+                          setQuantity((prevState) => prevState + 1)
+                        }
+                      >
+                        +
                       </button>
                     </div>
                   </div>
+
+                  <div className="py-2">
+                    <button
+                      className="btn btn-primary"
+                      onClick={addToCartHandler}
+                    >
+                      Add to Cart
+                    </button>
+                  </div>
                 </div>
-              </>
-            )}
-          </div>
+              </div>
+            </>
+          )}
         </div>
       </div>
     </div>

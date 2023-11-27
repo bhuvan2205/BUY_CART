@@ -154,11 +154,11 @@ const Order = () => {
             />
           ) : (
             <div className="lg:grid lg:grid-cols-12 flex flex-col gap-8">
-              <div className="lg:col-start-1 lg:col-span-7">
+              <div className="lg:col-start-1 lg:col-span-7 ">
                 {isLoading ? (
                   <Skeleton />
                 ) : (
-                  <div className="flex flex-col p-6 space-y-4 divide-y sm:p-10 divide-gray-700 bg-base-200">
+                  <div className="flex flex-col p-6 space-y-4 divide-y sm:p-10 divide-gray-700 bg-base-200 rounded-lg overflow-hidden shadow-lg">
                     <div>
                       <h2 className="text-2xl font-semibold">Order Items</h2>
                     </div>
@@ -221,7 +221,7 @@ const Order = () => {
                   </div>
                 )}
               </div>
-              <div className="lg:col-start-9 lg:col-span-4">
+              <div className="lg:col-start-9 lg:col-span-4 rounded-lg overflow-hidden shadow-lg">
                 {isLoading ? (
                   <Skeleton />
                 ) : (

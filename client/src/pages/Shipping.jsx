@@ -59,8 +59,8 @@ const Shipping = () => {
       <div className="py-12 flex justify-center">
         <CheckoutSteps steps={2} />
       </div>
-      <div className="flex justify-center items-center w-full flex-col">
-        <div className="bg-base-200 p-12">
+      <div className="flex justify-center items-center w-full flex-col ">
+        <div className="bg-base-200 p-12 rounded-lg overflow-hidden shadow-lg">
           <h1 className="text-2xl font-bold py-4">Shipping Address</h1>
           <form onSubmit={handleSubmit}>
             <div className="my-4">

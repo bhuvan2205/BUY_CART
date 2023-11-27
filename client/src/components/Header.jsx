@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 import { FaMoon, FaShoppingCart, FaSun } from "react-icons/fa";
 import { clearShippingAddress } from "../features/cartSlice";
 import { toggleTheme } from "../features/themeSlice";
+import { useState } from "react";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -15,6 +16,7 @@ const Header = () => {
   const { cartItems } = useSelector((state) => state?.cart);
   const { user } = useSelector((state) => state?.auth);
   const { mode } = useSelector((state) => state?.theme);
+  const [keywords, setKeywords] = useState("");
 
   const [logout, { isLoading }] = useLogoutMutation();
 
@@ -48,6 +50,17 @@ const Header = () => {
     }
   };
 
+  const handleSearch = () => {
+    if (!keywords) {
+      return toast.error("Type something", {
+        closeOnClick: true,
+        pauseOnHover: false,
+      });
+    }
+    navigate(`/search/${keywords}`);
+    setKeywords("");
+  };
+
   return (
     <div className="navbar bg-base-300 py-4 px-0">
       <div className="container mx-auto">
@@ -56,7 +69,19 @@ const Header = () => {
             Buy Cart
           </Link>
         </div>
-        <div className="flex-none">
+        <div className="flex-none md:flex">
+          <div className="form-control flex-row hidden md:flex">
+            <input
+              type="text"
+              placeholder="Search Products"
+              className="input input-bordered input-primary w-full max-w-lg md:min-w-[200px]"
+              value={keywords}
+              onChange={(e) => setKeywords(e.target.value)}
+            />
+            <button className="mx-4 btn btn-primary" onClick={handleSearch}>
+              Search
+            </button>
+          </div>
           <div className="dropdown dropdown-end pe-4">
             <label tabIndex={0} className="btn btn-ghost btn-circle">
               <div className="indicator">
