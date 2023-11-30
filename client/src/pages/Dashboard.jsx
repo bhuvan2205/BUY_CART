@@ -11,6 +11,7 @@ import { useFetchAllOrdersQuery } from "../features/orderApiSlice";
 import { useFetchProductsQuery } from "../features/productApiSice";
 import Message from "../components/Message";
 import { Link, useNavigate } from "react-router-dom";
+import { ROUTES } from "../constants/routes";
 
 const Dashboard = () => {
   const {
@@ -58,7 +59,7 @@ const Dashboard = () => {
                     <span
                       className="badge cursor-pointer badge-primary mt-4"
                       onClick={() => {
-                        navigate("/admin/orderlist");
+                        navigate(ROUTES.ORDER_LIST);
                       }}
                     >
                       View All 
@@ -80,7 +81,7 @@ const Dashboard = () => {
                 <span
                   className="badge cursor-pointer badge-secondary mt-4"
                   onClick={() => {
-                    navigate("/admin/userlist");
+                    navigate(ROUTES.USER_LIST);
                   }}
                 >
                   View All
@@ -107,7 +108,7 @@ const Dashboard = () => {
                 <span
                   className="badge cursor-pointer badge-info mt-4"
                   onClick={() => {
-                    navigate("/admin/productlist");
+                    navigate(ROUTES.PRODUCT_LIST);
                   }}
                 >
                   View All

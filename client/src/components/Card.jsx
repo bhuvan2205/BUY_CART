@@ -2,6 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Placeholder from "./Placeholder";
 import Reviews from "./Reviews";
 import { FaCartPlus } from "react-icons/fa";
+import { ROUTES } from "../constants/routes";
 
 const Card = (props) => {
   const navigate = useNavigate();
@@ -46,7 +47,7 @@ const Card = (props) => {
           <button
             href="#"
             className="btn btn-primary btn-block"
-            onClick={() => navigate(`/product/${id}`)}
+            onClick={() => navigate(`${ROUTES.PRODUCT}/${id}`)}
           >
             <FaCartPlus className="text-xl" />
             {btn}

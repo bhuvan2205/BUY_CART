@@ -19,7 +19,7 @@ const Login = () => {
 
   useEffect(() => {
     if (user?._id) {
-      navigate("/");
+      navigate(ROUTES.HOME);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
@@ -40,7 +40,7 @@ const Login = () => {
         closeOnClick: true,
         pauseOnHover: false,
       });
-      navigate("/");
+      navigate(ROUTES.HOME);
     } catch (error) {
       toast.error(error?.data?.message || error?.message, {
         closeOnClick: true,

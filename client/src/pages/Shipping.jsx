@@ -4,6 +4,7 @@ import { addShippingAddress } from "../features/cartSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import CheckoutSteps from "../components/CheckoutSteps";
+import { ROUTES } from "../constants/routes";
 
 const Shipping = () => {
   const [address, setAddress] = useState("");
@@ -18,7 +19,7 @@ const Shipping = () => {
 
   useEffect(() => {
     if (!cartItems?.length) {
-      navigate("/cart");
+      navigate(ROUTES.CART);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -52,7 +53,7 @@ const Shipping = () => {
     dispatch(
       addShippingAddress({ address: { address, city, postalCode, country } })
     );
-    navigate("/checkout/step2");
+    navigate(ROUTES.CHECKOUT_STEP_2);
   };
   return (
     <>

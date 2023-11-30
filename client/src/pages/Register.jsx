@@ -18,7 +18,7 @@ const Register = () => {
 
   useEffect(() => {
     if (user?._id) {
-      navigate("/");
+      navigate(ROUTES.HOME);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
@@ -34,7 +34,7 @@ const Register = () => {
     }
     try {
       await register({ email, password, name }).unwrap();
-      navigate("/login");
+      navigate(ROUTES.LOGIN);
     } catch (error) {
       toast.error(error?.data?.message || error?.message, {
         closeOnClick: true,

@@ -32,7 +32,7 @@ const Home = () => {
       <div className="gap-12 pb-8 lg:pb-12 grid grid-cols-1 place-items-center md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 place-content-between md:place-items-stretch">
         {isLoading && (
           <>
-            {[...Array(3)].map((_, index) => (
+            {[...Array(4)].map((_, index) => (
               <Placeholder key={index} />
             ))}
           </>

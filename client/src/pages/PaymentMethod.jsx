@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { addPaymentMethod } from "../features/cartSlice";
 import { toast } from "react-toastify";
+import { ROUTES } from "../constants/routes";
 
 const PaymentMethod = () => {
   const navigate = useNavigate();
@@ -25,11 +26,11 @@ const PaymentMethod = () => {
 
   useEffect(() => {
     if (!cartItems?.length) {
-      navigate("/cart");
+      navigate(ROUTES.CART);
     }
 
     if (!shippingAddress?.address) {
-      navigate("/checkout/step1");
+      navigate(ROUTES.CHECKOUT_STEP_1);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -65,7 +66,7 @@ const PaymentMethod = () => {
                 });
               }
               dispatch(addPaymentMethod(paymentMethod));
-              navigate("/checkout/step3");
+              navigate(ROUTES.CHECKOUT_STEP_3);
             }}
           >
             Next

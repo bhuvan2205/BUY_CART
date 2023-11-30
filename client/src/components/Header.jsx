@@ -57,7 +57,7 @@ const Header = () => {
         pauseOnHover: false,
       });
     }
-    navigate(`/search/${keywords}`);
+    navigate(`${ROUTES.SEARCH}/${keywords}`);
     setKeywords("");
   };
 
@@ -129,7 +129,7 @@ const Header = () => {
                     <button
                       className="justify-between"
                       onClick={() => {
-                        navigate("/profile");
+                        navigate(ROUTES.PROFILE);
                       }}
                     >
                       <span>Profile</span>

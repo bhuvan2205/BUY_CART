@@ -1,7 +1,18 @@
 export const ROUTES = {
   HOME: "/",
+  SEARCH: "/search",
   PRODUCT: "/product",
+  ORDER: "/order",
   CART: "/cart",
   LOGIN: "/login",
   REGISTER: "/register",
+  CHECKOUT_STEP_1: "/checkout/step1",
+  CHECKOUT_STEP_2: "/checkout/step2",
+  CHECKOUT_STEP_3: "/checkout/step3",
+  PROFILE: "/profile",
+  ADMIN_DASHBOARD: "/admin/dashboard",
+  ORDER_LIST: "/admin/orderlist",
+  USER_LIST: "/admin/userlist",
+  PRODUCT_LIST: "/order/productlist",
+  PRODUCT_EDIT: "/admin/product/edit",
 };

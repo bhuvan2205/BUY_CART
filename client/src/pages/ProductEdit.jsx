@@ -84,7 +84,7 @@ const ProductEdit = () => {
         closeOnClick: true,
         pauseOnHover: false,
       });
-      navigate("/admin/productlist");
+      navigate(ROUTES.PRODUCT_LIST);
     } catch (error) {
       toast.error(error?.data?.message || error?.message, {
         closeOnClick: true,

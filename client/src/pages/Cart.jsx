@@ -35,23 +35,23 @@ const Cart = () => {
                 <div className="flex w-full space-x-2 sm:space-x-4">
                   <img
                     className="flex-shrink-0 object-cover w-20 h-20 dark:border-transparent rounded outline-none sm:w-32 sm:h-32 dark:bg-gray-500"
-                    src={item.image}
-                    alt={item.name}
+                    src={item?.image}
+                    alt={item?.name}
                   />
                   <div className="flex flex-col justify-between w-full pb-4">
                     <div className="flex justify-between w-full pb-2 space-x-2">
                       <div className="space-y-1">
                         <h3 className="text-lg font-semibold leading-normal sm:pr-8">
-                          {item.name}
+                          {item?.name}
                         </h3>
                         <p className="text-sm dark:text-gray-400">
-                          <span className="pe-2">{item.brand}</span>
-                          <span className="">{item.category}</span>
+                          <span className="pe-2">{item?.brand}</span>
+                          <span className="">{item?.category}</span>
                         </p>
                       </div>
                       <div className="text-right">
                         <p className="text-lg font-semibold">
-                          ${item.price.toFixed(2)}
+                          ${item?.price.toFixed(2)}
                         </p>
                       </div>
                     </div>
@@ -73,7 +73,7 @@ const Cart = () => {
                         <FaAngleLeft />
                         <span
                           onClick={() =>
-                            navigate(`${ROUTES.PRODUCT}/${item._id}`)
+                            navigate(`${ROUTES.PRODUCT}/${item?._id}`)
                           }
                         >
                           View Product
@@ -108,7 +108,7 @@ const Cart = () => {
               className="px-6 py-2 border rounded-md btn-primary btn"
               disabled={cartItems?.length === 0}
               onClick={() => {
-                navigate("/checkout/step1");
+                navigate(ROUTES.CHECKOUT_STEP_1);
               }}
             >
               <span className="sr-only sm:not-sr-only">Continue to </span>
@@ -121,12 +121,12 @@ const Cart = () => {
             <h2 className="text-2xl font-semibold">Order items</h2>
             <ul className="flex flex-col pt-4 space-y-2">
               {cartItems?.map((item) => (
-                <li key={item._id} className="flex items-start justify-between">
+                <li key={item?._id} className="flex items-start justify-between">
                   <h3>
-                    {item.name}
+                    {item?.name}
                     <span className="text-sm text-primary px-4 font-bold">
                       <FaTimes className="inline text-sm" />
-                      {item.quantity}
+                      {item?.quantity}
                     </span>
                   </h3>
                   <div className="text-right">
@@ -154,19 +154,19 @@ const Cart = () => {
             <div className="pt-4 space-y-2">
               <div className="flex justify-between">
                 <span>Delivery fee</span>
-                <span>${shippingCost.toFixed(2)}</span>
+                <span>${shippingCost?.toFixed(2)}</span>
               </div>
               <div className="flex flex-col">
                 <div className="flex justify-between">
                   <span>Tax fee</span>
-                  <span>${taxCost.toFixed(2)}</span>
+                  <span>${taxCost?.toFixed(2)}</span>
                 </div>
               </div>
               <div className="space-y-6">
                 <div className="flex justify-between">
                   <span>Order Total</span>
                   <span className="font-semibold">
-                    ${orderTotal.toFixed(2)}
+                    ${orderTotal?.toFixed(2)}
                   </span>
                 </div>
                 <button
@@ -174,7 +174,7 @@ const Cart = () => {
                   className="w-full py-2 font-semibold border rounded btn btn-primary"
                   disabled={cartItems?.length === 0}
                   onClick={() => {
-                    navigate("/checkout/step1");
+                    navigate(ROUTES.CHECKOUT_STEP_1);
                   }}
                 >
                   Go to checkout

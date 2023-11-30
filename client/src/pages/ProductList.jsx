@@ -10,6 +10,7 @@ import {
 import { toast } from "react-toastify";
 import Spinner from "../components/Spinner";
 import { useState } from "react";
+import { ROUTES } from "../constants/routes";
 
 const ProductList = () => {
   const [page, setPage] = useState(1);
@@ -114,7 +115,7 @@ const ProductList = () => {
                         <FaEdit
                           className="text-xl text-primary cursor-pointer"
                           onClick={() => {
-                            navigate(`/admin/product/edit/${product?._id}`);
+                            navigate(`${ROUTES.PRODUCT_EDIT}/${product?._id}`);
                           }}
                         />
                       </td>
