@@ -131,7 +131,12 @@ const Product = () => {
                   </div>
                 </div>
                 <div className="col-span-3 col-start-7 shadow-lg p-8 bg-base-200 rounded-lg overflow-hidden">
-                  <h2 className="font-bold pb-4">Product Details</h2>
+                  <h2 className="font-bold pb-4">
+                    Product Details{" "}
+                    {data?.product?.countInStock === 0 && (
+                      <span className="badge badge-error">Out of stock</span>
+                    )}
+                  </h2>
                   <div className="py-2 flex justify-between">
                     <p>Brand: </p>
                     <span className="text-left w-1/2">
@@ -149,7 +154,9 @@ const Product = () => {
                     <div className="join w-1/2 text-left">
                       <button
                         className="join-item btn btn-neutral"
-                        disabled={quantity === 1}
+                        disabled={
+                          quantity === 1 || data?.product?.countInStock === 0
+                        }
                         onClick={() =>
                           setQuantity((prevState) => prevState - 1)
                         }
@@ -159,7 +166,10 @@ const Product = () => {
                       <span className="join-item btn">{quantity}</span>
                       <button
                         className="join-item btn btn-neutral"
-                        disabled={quantity === data?.product?.countInStock}
+                        disabled={
+                          quantity === data?.product?.countInStock ||
+                          data?.product?.countInStock === 0
+                        }
                         onClick={() =>
                           setQuantity((prevState) => prevState + 1)
                         }
@@ -173,6 +183,7 @@ const Product = () => {
                     <button
                       className="btn btn-primary"
                       onClick={addToCartHandler}
+                      disabled={data?.product?.countInStock === 0}
                     >
                       Add to Cart
                     </button>
