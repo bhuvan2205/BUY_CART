@@ -38,7 +38,7 @@ export const getSingleOrder = expressAsyncHandler(async (req, res) => {
   const { id } = req?.params || {};
   checkValidObjectID(id);
 
-  const order = await Order.findById(id);
+  const order = await Order.findById(id).populate("user", "_id email");
 
   if (!order) {
     res.status(400);

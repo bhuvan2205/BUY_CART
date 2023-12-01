@@ -40,6 +40,7 @@ const Order = () => {
     isDelivered = false,
     paidAt = "",
     deliveredAt = "",
+    user: buyer
   } = data?.order || {};
 
   const handleDeliver = async () => {
@@ -290,7 +291,7 @@ const Order = () => {
                       <h2 className="text-2xl font-semibold">Payment Method</h2>
                       <p className="text-sm pt-4">Paypal</p>
                     </div>
-                    {!isPaid && (
+                    {!isPaid && user?._id?.toString() === buyer?._id?.toString() && (
                       <>
                         {paypalLoading && <Slider />}
                         <PayPalButtons
