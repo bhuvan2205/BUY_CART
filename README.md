@@ -1,26 +1,25 @@
 # BUY_CART
 E-Commerce Project using MERN Stack
 
-# Live URL
-https://buy-cart.onrender.com/
-
-# API Documentation
-https://documenter.getpostman.com/view/26098056/2s9YeD9DH6
-
 **Frontend** - In the frontend side, we would be using React as the frontend library. We would use Redux for state management. We would use React Bootstrap library for basic designing of the interface.
 
 **Backend** - For the backend side, we would be using the Express library on top of Nodejs. We would use MongoDB as the NoSQL database to store our data as documents in JSON format. We would use mongoose to connect to our MongoDB database.
 
+# Live URL
+https://buy-cart.onrender.com/
+
 ![buy_cart_dark_theme](https://github.com/bhuvan2205/BUY_CART/assets/56767330/b89861a5-ed21-4869-b14f-60def0068bb9)
 ![buy_cart_light_theme](https://github.com/bhuvan2205/BUY_CART/assets/56767330/7a80a0e2-fbf5-4edb-8dec-d92afc5cd31c)
 
+# API Documentation
+https://documenter.getpostman.com/view/26098056/2s9YeD9DH6
 
-# Pre-Requisites
+# Setup in Local
+
+**Pre-Requisites**
 
 * Node.js
 * MongoDB
-
-# Setup in Local
 
 Create .env file and copy content from .env-example and replace your actual value
 
@@ -30,14 +29,14 @@ In ubuntu, run the following command to start the MongoDB
  
 **sudo systemctl start mongod**
 
- To start the server, run the below commands
+ To start the server or back-end, run the below commands
  
 **npm i**
  
 **npm run server**
- 
 
- To run the client, run the below commands
+ 
+ To run the client or front-end, run the below commands
  
 **cd ./client**
  
