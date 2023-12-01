@@ -1,5 +1,6 @@
 import User from "./models/user.js";
 import Product from "./models/products.js";
+import Orders from "./models/order.js";
 import expressAsyncHandler from "express-async-handler";
 import { users } from "./data/user.js";
 import products from "./data/product.js";
@@ -13,6 +14,7 @@ const importData = expressAsyncHandler(async () => {
   try {
     await User.deleteMany();
     await Product.deleteMany();
+    await Orders.deleteMany();
 
     const insertedUsers = await User.insertMany(users);
     console.log(

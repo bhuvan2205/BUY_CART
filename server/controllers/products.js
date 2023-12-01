@@ -164,6 +164,8 @@ export const addProductReview = expressAsyncHandler(async (req, res) => {
   };
 
   product.reviews = [...product?.reviews, { ...review }];
+  product.numReviews = product?.reviews?.length;
+  product.rating = product?.reviews?.reduce((acc, item) => { return acc += item?.rating}, 0) / product?.numReviews;
 
   const updatedProduct = await product.save();
 
