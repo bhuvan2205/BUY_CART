@@ -5,6 +5,7 @@ import { useRegisterUserMutation } from "../features/userApiSlice";
 import { ROUTES } from "../constants/routes";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import Spinner from "../components/Spinner";
 
 const Register = () => {
   const [name, setName] = useState("");
@@ -107,12 +108,11 @@ const Register = () => {
           </div>
           <div className="my-8">
             <button
-              className={`btn btn-primary btn-block ${
-                isLoading && "animate-spin"
-              }`}
+              className="btn btn-primary btn-block"
               type="submit"
               disabled={isLoading}
             >
+              {isLoading && <Spinner />}
               Register
             </button>
             <p className="flex items-center justify-center">
