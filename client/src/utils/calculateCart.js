@@ -2,7 +2,7 @@ const calculateCart = (state) => {
   const subTotal =
     state?.cartItems?.length > 0
       ? state?.cartItems?.reduce((acc, item) => {
-          return (acc += item.price);
+          return (acc += item?.price);
         }, 0)
       : 0;
   const shippingCost = subTotal > 2000 ? 0 : subTotal > 1000 ? 100 : 50;

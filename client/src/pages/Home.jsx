@@ -32,7 +32,7 @@ const Home = () => {
       <div className="gap-12 pb-8 lg:pb-12 grid grid-cols-1 place-items-center md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 place-content-between md:place-items-stretch">
         {isLoading && (
           <>
-            {[...Array(4)].map((_, index) => (
+            {[...Array(4)]?.map((_, index) => (
               <Placeholder key={index} />
             ))}
           </>
@@ -45,13 +45,13 @@ const Home = () => {
             <Card
               key={index}
               btn="Buy Now"
-              description={product.description}
-              title={product.name}
-              image={product.image}
-              price={product.price}
+              description={product?.description}
+              title={product?.name}
+              image={product?.image}
+              price={product?.price}
               isLoading={isLoading}
-              rating={product.rating}
-              id={product._id}
+              rating={product?.rating}
+              id={product?._id}
             />
           ))}
       </div>

@@ -23,13 +23,13 @@ const Header = () => {
   const basketCount =
     cartItems?.length > 0
       ? cartItems?.reduce((acc, item) => {
-          return (acc += item.quantity);
+          return (acc += item?.quantity);
         }, 0)
       : 0;
   const subTotal =
     cartItems?.length > 0
       ? cartItems?.reduce((acc, item) => {
-          return (acc += item.price);
+          return (acc += item?.price);
         }, 0)
       : 0;
 
@@ -52,7 +52,7 @@ const Header = () => {
 
   const handleSearch = () => {
     if (!keywords) {
-      return toast.error("Type something", {
+      return toast.error("Type something to Search", {
         closeOnClick: true,
         pauseOnHover: false,
       });

@@ -105,6 +105,12 @@ export const updateProduct = expressAsyncHandler(async (req, res) => {
   product.countInStock = countInStock || product?.countInStock;
 
   const updatedProduct = await product.save();
+
+  if (!updatedProduct) {
+    res.status(400);
+    throw Error("Something went wrong!");
+  }
+
   res.status(200).json({ product: updatedProduct });
 });
 
@@ -127,4 +133,44 @@ export const deleteSingleProduct = expressAsyncHandler(async (req, res) => {
   }
 
   res.status(200).json({ message: "Product removed successfully" });
+});
+
+export const addProductReview = expressAsyncHandler(async (req, res) => {
+  const { id } = req.params || {};
+  checkValidObjectID(id);
+
+  const product = await Product.findById(id);
+
+  if (!product) {
+    res.status(400);
+    throw Error("Product not Found!");
+  }
+
+  const reviewExists = product?.reviews?.find(
+    (review) => review?.user?.toString() === req?.user?._id?.toString()
+  );
+
+  if (reviewExists) {
+    res.status(400);
+    throw Error("Product already reviewed!");
+  }
+  const { comment = "", rating = 0 } = req.body || {};
+
+  const review = {
+    comment,
+    user: req?.user?._id,
+    name: req?.user?.name,
+    rating,
+  };
+
+  product.reviews = [...product?.reviews, { ...review }];
+
+  const updatedProduct = await product.save();
+
+  if (!updatedProduct) {
+    res.status(400);
+    throw Error("Something went wrong!");
+  }
+
+  res.status(200).json({ product: updatedProduct });
 });

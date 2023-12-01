@@ -2,10 +2,9 @@ import { createSlice } from "@reduxjs/toolkit";
 import setLocalStorage from "../utils/setLocalStorage";
 import calculateCart from "../utils/calculateCart";
 
-const initialState = 
-  localStorage.getItem("cart")
-        ? JSON.parse(localStorage.getItem("cart"))
-        : { cartItems: [], shippingAddress: {}, paymentMethod: "" }
+const initialState = localStorage.getItem("cart")
+  ? JSON.parse(localStorage.getItem("cart"))
+  : { cartItems: [], shippingAddress: {}, paymentMethod: "" };
 
 export const cartSlice = createSlice({
   name: "cart",
@@ -13,7 +12,7 @@ export const cartSlice = createSlice({
   reducers: {
     addCartItems: (state, action) => {
       const item = action?.payload || {};
-      const itemExists = state.cartItems.find(
+      const itemExists = state?.cartItems?.find(
         (cartItem) => cartItem?._id === item?._id
       );
 
@@ -21,7 +20,7 @@ export const cartSlice = createSlice({
         state.cartItems = [...state.cartItems, item];
       } else {
         state.cartItems = state?.cartItems?.map((cartItem) => {
-          if (cartItem._id === item._id) {
+          if (cartItem._id === item?._id) {
             return item;
           }
           return cartItem;
@@ -33,14 +32,14 @@ export const cartSlice = createSlice({
     },
     removeCartItems: (state, action) => {
       const id = action?.payload || {};
-      const items = state.cartItems.filter((cartItem) => cartItem?._id !== id);
+      const items = state?.cartItems?.filter((cartItem) => cartItem?._id !== id);
       state.cartItems = [...items];
       calculateCart(state);
       setLocalStorage("cart", state);
       return state;
     },
     addShippingAddress: (state, action) => {
-      const { address }= action?.payload || {};
+      const { address } = action?.payload || {};
       state.shippingAddress = address;
       setLocalStorage("cart", state);
       return state;
@@ -64,7 +63,13 @@ export const cartSlice = createSlice({
   },
 });
 
-export const { addCartItems, clearCartItems, removeCartItems, addShippingAddress ,addPaymentMethod, clearShippingAddress } =
-  cartSlice.actions;
+export const {
+  addCartItems,
+  clearCartItems,
+  removeCartItems,
+  addShippingAddress,
+  addPaymentMethod,
+  clearShippingAddress,
+} = cartSlice.actions;
 
 export default cartSlice.reducer;

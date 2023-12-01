@@ -22,7 +22,7 @@ const Login = () => {
       navigate(ROUTES.HOME);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user]);
+  }, [user?._id]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

@@ -1,6 +1,5 @@
 import Message from "../components/Message";
 import Skeleton from "../components/Skeleton";
-import { useProfileQuery } from "../features/userApiSlice";
 import profile from "../assets/profile.jpg";
 import cover from "../assets/cover.jpg";
 import {
@@ -14,16 +13,19 @@ import {
 import { Link, useNavigate } from "react-router-dom";
 import { ROUTES } from "../constants/routes";
 import { useFetchMyOrdersQuery } from "../features/orderApiSlice";
+import { useSelector } from "react-redux";
 
 const Profile = () => {
   const navigate = useNavigate();
-  const { data, isLoading, isError, error } = useProfileQuery();
+  const { user } = useSelector((state) => state?.auth);
+
   const {
     data: myOrders,
     isLoading: fetchingOrders,
     isError: isMyOrderError,
     error: myOrderError,
   } = useFetchMyOrdersQuery();
+
   return (
     <>
       <div className="container mx-auto">
@@ -31,17 +33,13 @@ const Profile = () => {
           <Link to={ROUTES.HOME}>
             <button className="btn  btn-primary">Go Home</button>
           </Link>
-          {isError && (
-            <Message
-              variant="alert-error"
-              message={error?.data?.message || error?.message}
-            />
-          )}
           {isMyOrderError && (
-            <Message
-              variant="alert-error"
-              message={myOrderError?.data?.message || myOrderError?.message}
-            />
+            <div className="pt-8">
+              <Message
+                variant="alert-error"
+                message={myOrderError?.data?.message || myOrderError?.message}
+              />
+            </div>
           )}
           <div className="lg:grid lg:grid-cols-12">
             <div className="col-span-8 col-start-1">
@@ -94,8 +92,7 @@ const Profile = () => {
             </div>
 
             <div className="col-span-4 col-start-9">
-              {isLoading && <Skeleton />}
-              {data && (
+              {user && (
                 <>
                   <div className="max-w-2xl mx-4 sm:max-w-sm md:max-w-sm lg:max-w-sm xl:max-w-sm sm:mx-auto md:mx-auto lg:mx-auto xl:mx-auto shadow-xl rounded-lg py-8">
                     <div className="rounded-t-lg h-32 overflow-hidden bg-base-200">
@@ -113,9 +110,9 @@ const Profile = () => {
                       />
                     </div>
                     <div className="text-center mt-2">
-                      <h2 className="font-semibold">{data?.name}</h2>
+                      <h2 className="font-semibold">{user?.name}</h2>
                       <span className="text-gray-500">
-                        {data?.email}
+                        {user?.email}
                         <FaEnvelope className="inline-block mx-2" />
                       </span>
                     </div>
@@ -134,7 +131,7 @@ const Profile = () => {
                       </li>
                     </ul>
                     <div className="p-6 border-t mx-8 flex items-center justify-center">
-                      {data?.isAdmin && (
+                      {user?.isAdmin && (
                         <button
                           className="w-2/3  btn btn-primary rounded-full text-center"
                           onClick={() => {
