@@ -4,6 +4,7 @@ import Placeholder from "../components/Placeholder";
 import Message from "../components/Message";
 import { Link, useParams } from "react-router-dom";
 import { ROUTES } from "../constants/routes";
+import Hero from "../components/Hero";
 
 const Home = () => {
   const { keywords } = useParams();
@@ -20,6 +21,7 @@ const Home = () => {
           </Link>
         </div>
       )}
+      <Hero />
       <h1 className="text-xl py-8 font-bold text-center md:text-left">
         {!keywords ? "Latest Products" : "Product Results"}
       </h1>

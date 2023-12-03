@@ -31,16 +31,16 @@ const Card = (props) => {
           <div className="mt-2 mb-5 flex items-center justify-between">
             <p>
               <span className="text-xl font-bold ">
-                ${Number(price).toFixed(2)}{" "}
+                ${Number(price)?.toFixed(2)}{" "}
               </span>
               <span className="text-sm  line-through">
-                ${(Number(price) * 1.1).toFixed(2)}
+                ${(Number(price) * 1.1)?.toFixed(2)}
               </span>
             </p>
             <div className="flex items-center">
               <Reviews rating={rating} variant="small" />
               <span className="mr-2 ml-3 rounded bg-secondary text-black px-2.5 py-0.5 text-xs font-semibold">
-                {rating}
+                {rating?.toFixed(1)}
               </span>
             </div>
           </div>

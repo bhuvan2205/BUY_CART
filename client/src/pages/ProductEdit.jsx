@@ -33,7 +33,7 @@ const ProductEdit = () => {
     formData.append("image", e?.target?.files[0]);
     try {
       const res = await uploadImage(formData).unwrap();
-      setImage(res?.image)
+      setImage(res?.image);
       toast.success(res?.message, {
         closeOnClick: true,
         pauseOnHover: false,
@@ -62,6 +62,14 @@ const ProductEdit = () => {
         pauseOnHover: false,
       });
     }
+
+    if (price <= 0 || countInStock <= 0) {
+      return toast.error("Invalid data", {
+        closeOnClick: true,
+        pauseOnHover: false,
+      });
+    }
+
     if (!image) {
       return toast.error("Upload Image", {
         closeOnClick: true,
@@ -108,7 +116,7 @@ const ProductEdit = () => {
   return (
     <div className="container mx-auto">
       <div className="py-8">
-        <Link to={ROUTES.HOME}>
+        <Link to={ROUTES.PRODUCT_LIST}>
           <button className="btn  btn-primary">Go Back</button>
         </Link>
         <div className="flex justify-center items-center w-full my-8">

@@ -62,14 +62,14 @@ const Header = () => {
   };
 
   return (
-    <div className="navbar bg-base-300 py-4 px-0">
+    <div className="navbar bg-base-300 py-6 px-0">
       <div className="container mx-auto">
         <div className="flex-1">
           <Link className="font-bold text-primary text-xl" to={ROUTES.HOME}>
             Buy Cart
           </Link>
         </div>
-        <div className="flex-none md:flex">
+        <div className="flex-none md:flex items-center">
           <div className="form-control flex-row hidden md:flex">
             <input
               type="text"
@@ -133,15 +133,6 @@ const Header = () => {
                       }}
                     >
                       <span>Profile</span>
-                      <span
-                        className="badge badge-primary"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          dispatch(toggleTheme());
-                        }}
-                      >
-                        {mode === "dark" ? <FaMoon /> : <FaSun />}
-                      </span>
                     </button>
                   </li>
                   <li>
@@ -161,6 +152,21 @@ const Header = () => {
                 </>
               )}
             </ul>
+          </div>
+          <div className="ps-4">
+            <span
+              className="badge badge-primary cursor-pointer rounded-[50%] h-10 w-10"
+              onClick={(e) => {
+                e.stopPropagation();
+                dispatch(toggleTheme());
+              }}
+            >
+              {mode === "dark" ? (
+                <FaMoon className="text-xl" />
+              ) : (
+                <FaSun className="text-xl" />
+              )}
+            </span>
           </div>
         </div>
       </div>
