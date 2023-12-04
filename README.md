@@ -1,7 +1,7 @@
 # BUY_CART
 E-Commerce Project using MERN Stack
 
-**Frontend** - In the frontend side, we would be using React as the frontend library. We would use Redux for state management. We would use React Bootstrap library for basic designing of the interface.
+**Frontend** - In the frontend side, we would be using React as the frontend library. We would use Redux for state management. We would use Tailwind CSS library for basic designing of the interface.
 
 **Backend** - For the backend side, we would be using the Express library on top of Nodejs. We would use MongoDB as the NoSQL database to store our data as documents in JSON format. We would use mongoose to connect to our MongoDB database.
 
