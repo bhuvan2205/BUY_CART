@@ -1,4 +1,5 @@
 # BUY_CART
+
 E-Commerce Project using MERN Stack
 
 **Frontend** - In the frontend side, we would be using React as the frontend library. We would use Redux for state management. We would use Tailwind CSS library for basic designing of the interface.
@@ -6,12 +7,16 @@ E-Commerce Project using MERN Stack
 **Backend** - For the backend side, we would be using the Express library on top of Nodejs. We would use MongoDB as the NoSQL database to store our data as documents in JSON format. We would use mongoose to connect to our MongoDB database.
 
 # Live URL
+
 https://buy-cart.onrender.com/
+
+# SCREENSHOTS
 
 ![buy_cart_dark_theme](https://github.com/bhuvan2205/BUY_CART/assets/56767330/b89861a5-ed21-4869-b14f-60def0068bb9)
 ![buy_cart_light_theme](https://github.com/bhuvan2205/BUY_CART/assets/56767330/7a80a0e2-fbf5-4edb-8dec-d92afc5cd31c)
 
 # API Documentation
+
 https://documenter.getpostman.com/view/26098056/2s9YeD9DH6
 
 # Setup in Local
