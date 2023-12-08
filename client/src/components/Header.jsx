@@ -69,7 +69,7 @@ const Header = () => {
             Buy Cart
           </Link>
         </div>
-        <div className="flex-none md:flex items-center">
+        <div className="flex items-center">
           <div className="form-control flex-row hidden md:flex">
             <input
               type="text"

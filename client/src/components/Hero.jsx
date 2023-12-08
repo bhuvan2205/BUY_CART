@@ -10,7 +10,7 @@ const Hero = () => {
         <div className="flex items-center text-center lg:text-left px-8 md:px-12 lg:w-1/2">
           <div>
             <h2 className="text-3xl font-semibold text-primary md:text-4xl">
-              Improve Your <span className=" text-secondary">Buy</span>{" "}
+              Improve Your <span className=" text-secondary">Buying</span>{" "}
               Experience
             </h2>
             <p className="mt-2 text-sm text-gray-500 md:text-base">
@@ -20,11 +20,14 @@ const Hero = () => {
               Cumque debitis dignissimos id quam vel!
             </p>
             <div className="flex justify-center lg:justify-start mt-6 gap-4">
-              <a className="btn btn-primary px-6" href="#">
+              <a className="btn btn-primary btn-outline px-6" href="#products">
                 Get Started
               </a>
               {!user?._id && (
-                <Link className="btn btn-outline px-6 btn-primary" to={ROUTES.REGISTER}>
+                <Link
+                  className="btn btn-outline px-6 btn-secondary"
+                  to={ROUTES.REGISTER}
+                >
                   Register
                 </Link>
               )}

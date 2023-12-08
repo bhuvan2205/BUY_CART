@@ -14,15 +14,18 @@ const Home = () => {
 
   return (
     <div className="container mx-auto">
-      {keywords && (
+      {!!keywords && (
         <div className="pt-8">
           <Link to={ROUTES.HOME}>
             <button className="btn  btn-primary">Go Home</button>
           </Link>
         </div>
       )}
-      <Hero />
-      <h1 className="text-xl py-8 font-bold text-center md:text-left">
+      {!keywords && <Hero />}
+      <h1
+        className="text-xl py-8 font-bold text-center md:text-left"
+        id="products"
+      >
         {!keywords ? "Latest Products" : "Product Results"}
       </h1>
       {isError && (
@@ -40,7 +43,9 @@ const Home = () => {
           </>
         )}
 
-        {keywords && data?.products?.length === 0 && <h4 className="text-3xl font-bold">No Products available :(</h4>}
+        {keywords && data?.products?.length === 0 && (
+          <h4 className="text-3xl font-bold">No Products available :(</h4>
+        )}
 
         {data &&
           data?.products?.map((product, index) => (

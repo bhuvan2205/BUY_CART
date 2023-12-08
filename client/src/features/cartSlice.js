@@ -52,6 +52,7 @@ export const cartSlice = createSlice({
     },
     clearCartItems: (state) => {
       state.cartItems = [];
+      calculateCart(state);
       setLocalStorage("cart", state);
       return state;
     },
